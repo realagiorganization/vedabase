@@ -1,0 +1,57 @@
+name: release
+
+on:
+  push:
+    tags:
+      - v*
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to release (for manual runs)
+        required: false
+        default: ""
+      allow_yellow:
+        description: Allow warning-level failures (act-run-yellow mode)
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    name: Verify release build
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.allow_yellow == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Test
+        run: npm run test --if-present
+      - name: Build
+        run: npm run build --if-present
+
+  create-release:
+    name: Create GitHub release
+    runs-on: ubuntu-latest
+    needs: verify
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.tag }}" ]; then
+            echo "value=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.value }}
+          generate_release_notes: true
