@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import React from 'react';
 import { describe, expect, it } from 'vitest';
 
 type HymnCardProps = {
@@ -25,9 +24,12 @@ describe('HymnCard', () => {
       />,
     );
 
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
-      'Srimad Bhagavatam 1.1.1',
-    );
-    expect(screen.getByText('Om namo bhagavate vasudevaya.')).toBeInTheDocument();
+    const heading = screen.getByRole('heading', { level: 2 }) as {
+      textContent?: string;
+    };
+    const verse = screen.getByText('Om namo bhagavate vasudevaya.') as unknown;
+
+    expect(heading.textContent).toBe('Srimad Bhagavatam 1.1.1');
+    expect(Boolean(verse)).toBe(true);
   });
 });

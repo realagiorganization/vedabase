@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { useEffect, useState } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { mockFetchVedabaseSuccess, vedabaseResponse } from '../mocks/api';
 
@@ -36,7 +36,7 @@ function useVedabase(query: string): VedabaseState {
 
 describe('useVedabase', () => {
   it('loads vedabase data from mocked fetch', async () => {
-    vi.mocked(fetch).mockImplementation(mockFetchVedabaseSuccess);
+    (fetch as any).mockImplementation(mockFetchVedabaseSuccess);
 
     const { result } = renderHook(() => useVedabase('dharma'));
 
