@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { searchHymns, getHymnById } from '@/lib/api/vedabase';
-import type { Hymn } from '@/types';
+import type { Hymn } from '@/lib/api/types';
 
 interface UseHymnsOptions {
   immediate?: boolean;
@@ -32,7 +32,7 @@ export function useHymns(query: string, options: UseHymnsOptions = {}) {
 
   useEffect(() => {
     if (options.immediate !== false) {
-      search();
+      void search();
     }
   }, [search, options.immediate]);
 

@@ -1,35 +1,53 @@
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
-type HymnCardProps = {
-  title: string;
-  verse: string;
-};
-
-function HymnCard({ title, verse }: HymnCardProps) {
-  return (
-    <article aria-label="hymn-card">
-      <h2>{title}</h2>
-      <p>{verse}</p>
-    </article>
-  );
-}
+import { HymnCard } from '@/components/HymnCard';
 
 describe('HymnCard', () => {
-  it('renders title and verse content', () => {
+  it('renders hymn metadata from the real component', () => {
     render(
       <HymnCard
-        title="Srimad Bhagavatam 1.1.1"
-        verse="Om namo bhagavate vasudevaya."
+        hymn={{
+          id: 'bg-4-7',
+          title: 'Bhagavad-gita 4.7',
+          verseCount: 1,
+          deity: 'Krishna',
+        }}
       />,
     );
 
-    const heading = screen.getByRole('heading', { level: 2 }) as {
-      textContent?: string;
-    };
-    const verse = screen.getByText('Om namo bhagavate vasudevaya.') as unknown;
+    expect(
+      screen.getByRole('button', { name: 'Open hymn Bhagavad-gita 4.7' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Bhagavad-gita 4.7')).toBeInTheDocument();
+    expect(screen.getByLabelText('Verse count')).toHaveTextContent('1 verses');
+    expect(screen.getByLabelText('Deity association')).toHaveTextContent(
+      'Krishna association',
+    );
+  });
 
-    expect(heading.textContent).toBe('Srimad Bhagavatam 1.1.1');
-    expect(Boolean(verse)).toBe(true);
+  it('invokes onSelect for click and keyboard activation', () => {
+    const onSelect = vi.fn();
+
+    render(
+      <HymnCard
+        hymn={{
+          id: 'gayatri-mantra',
+          title: 'Gayatri Mantra',
+          verseCount: 24,
+          deity: 'Savitar',
+        }}
+        onSelect={onSelect}
+      />,
+    );
+
+    const card = screen.getByRole('button', { name: 'Open hymn Gayatri Mantra' });
+
+    fireEvent.click(card);
+    fireEvent.keyDown(card, { key: 'Enter' });
+
+    expect(onSelect).toHaveBeenCalledTimes(2);
+    expect(onSelect).toHaveBeenNthCalledWith(1, 'gayatri-mantra');
+    expect(onSelect).toHaveBeenNthCalledWith(2, 'gayatri-mantra');
   });
 });

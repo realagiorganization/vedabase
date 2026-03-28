@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { SearchBar } from './SearchBar';
 
 interface HeaderProps {
@@ -7,6 +8,7 @@ interface HeaderProps {
 
 const DEFAULT_NAV_ITEMS = [
   { label: 'Home', href: '/' },
+  { label: 'Docs', href: '/docs' },
   { label: 'Hymns', href: '/hymn' },
   { label: 'Murti', href: '/murti' },
   { label: 'Translator', href: '/translator' },
@@ -18,10 +20,10 @@ export function Header({ appName = 'Vedabase', navItems = DEFAULT_NAV_ITEMS }: H
       <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-3">
-            <a href="/" className="flex items-center gap-2" aria-label="Go to home page">
+            <Link to="/" className="flex items-center gap-2" aria-label="Go to home page">
               <span className="text-2xl" aria-hidden="true">🕉</span>
               <span className="text-xl font-bold text-amber-700">{appName}</span>
-            </a>
+            </Link>
           </div>
 
           <div className="w-full lg:max-w-md">
@@ -30,14 +32,14 @@ export function Header({ appName = 'Vedabase', navItems = DEFAULT_NAV_ITEMS }: H
 
           <nav className="flex flex-wrap items-center gap-3" aria-label="Primary navigation">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 className="rounded-md px-3 py-1 text-sm text-slate-700 transition hover:bg-slate-100"
                 aria-label={`Navigate to ${item.label}`}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

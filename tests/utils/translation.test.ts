@@ -1,22 +1,29 @@
-import { translatorResponse } from '../mocks/api';
 import { describe, expect, it } from 'vitest';
 
-type TranslationPayload = {
-  sourceLanguage: string;
-  targetLanguage: string;
-  translatedText: string;
-};
+import {
+  normalizeDiacritics,
+  parseSanskrit,
+  splitIntoWords,
+} from '@/utils/translation';
 
-function translateText(payload: TranslationPayload) {
-  return `[${payload.sourceLanguage}->${payload.targetLanguage}] ${payload.translatedText}`;
-}
+describe('translation utils', () => {
+  it('splits Sanskrit text into normalized word tokens', () => {
+    expect(splitIntoWords('om   bhur  bhuvah')).toEqual([
+      'om',
+      'bhur',
+      'bhuvah',
+    ]);
+  });
 
-describe('translateText', () => {
-  it('formats translator response data', () => {
-    const message = translateText(translatorResponse);
+  it('normalizes supported diacritics to deterministic display glyphs', () => {
+    expect(normalizeDiacritics('ā ṛ ś')).toBe('आ ऋ श');
+  });
 
-    expect(message).toBe(
-      '[en->es] Siempre que haya un declive del dharma...',
-    );
+  it('parses Sanskrit text using the real utility functions', () => {
+    expect(parseSanskrit('ॐ भूर् भुवः')).toEqual({
+      original: 'ॐ भूर् भुवः',
+      words: ['ॐ', 'भूर्', 'भुवः'],
+      syllables: 9,
+    });
   });
 });

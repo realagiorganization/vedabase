@@ -57,6 +57,12 @@ Run lint checks:
 make lint
 ```
 
+Run type checks:
+
+```bash
+make typecheck
+```
+
 Apply lint fixes automatically:
 
 ```bash
@@ -93,4 +99,23 @@ Run the consolidated predictive build/test flow:
 
 ```bash
 make predictive-build-test-all
+```
+
+Generate the functionality and BDD documentation artifacts:
+
+```bash
+npm run docs:generate
+```
+
+Build and verify the GitHub Pages documentation site output:
+
+```bash
+npm run docs:test
+```
+
+Run the stricter local verification ladder:
+
+```bash
+make verify
+make verify-strict
 ```

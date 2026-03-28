@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "src",
+    "tests",
+    "testing-stubs.d.ts",
+    "tests/testing-stubs.d.ts",
+    "vite.config.d.ts",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
+}

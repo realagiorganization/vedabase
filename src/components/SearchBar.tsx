@@ -17,13 +17,18 @@ export function SearchBar({
   suggestions = PLACEHOLDER_SUGGESTIONS,
 }: SearchBarProps) {
   const [query, setQuery] = useState('');
+  const filteredSuggestions = suggestions.filter((suggestion) =>
+    query.trim()
+      ? suggestion.toLowerCase().includes(query.trim().toLowerCase())
+      : true,
+  );
 
   return (
     <div className="relative" aria-label="Search hymns with autocomplete">
       <input
         type="search"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(event: { target: { value: string } }) => setQuery(event.target.value)}
         placeholder={placeholder}
         className="w-full rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-700"
         aria-label="Search hymns"
@@ -40,10 +45,11 @@ export function SearchBar({
       <div className="mt-2 rounded-lg border border-slate-100 bg-slate-50 p-2" aria-label="Autocomplete suggestions">
         <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">Suggestions</p>
         <div className="flex flex-wrap gap-2">
-          {suggestions.map((suggestion) => (
+          {filteredSuggestions.map((suggestion) => (
             <button
               key={suggestion}
               type="button"
+              onClick={() => setQuery(suggestion)}
               className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
               aria-label={`Use suggestion ${suggestion}`}
             >

@@ -32,8 +32,10 @@ jobs:
           cache: npm
       - name: Install
         run: npm ci
-      - name: Build site
-        run: npm run build --if-present
+      - name: Generate docs
+        run: npm run docs:generate
+      - name: Build and verify docs site
+        run: npm run docs:test
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

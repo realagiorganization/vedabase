@@ -1,50 +1,35 @@
-import { renderHook, waitFor } from '@testing-library/react';
-import { useEffect, useState } from 'react';
 import { describe, expect, it } from 'vitest';
 
-import { mockFetchVedabaseSuccess, vedabaseResponse } from '../mocks/api';
+import {
+  getHymnById,
+  getHymnMetadata,
+  getHymnsByChapter,
+  searchHymns,
+} from '@/lib/api/vedabase';
 
-type VedabaseState = {
-  loading: boolean;
-  items: typeof vedabaseResponse;
-};
+describe('vedabase api client', () => {
+  it('returns deterministic mock search results when no api base url is configured', async () => {
+    const results = await searchHymns('gayatri');
 
-function useVedabase(query: string): VedabaseState {
-  const [state, setState] = useState<VedabaseState>({
-    loading: true,
-    items: [],
+    expect(results).toHaveLength(1);
+    expect(results[0]?.id).toBe('gayatri-mantra');
+    expect(results[0]?.metadata?.title).toBe('Rigveda 3.62.10');
   });
 
-  useEffect(() => {
-    let active = true;
+  it('loads hymn detail and metadata from the real module', async () => {
+    const hymn = await getHymnById('mahamrityunjaya');
+    const metadata = await getHymnMetadata('mahamrityunjaya');
+    const chapterHymns = await getHymnsByChapter('rigveda-7-59-12');
 
-    fetch(`/api/vedabase?q=${encodeURIComponent(query)}`)
-      .then((response) => response.json())
-      .then((items: typeof vedabaseResponse) => {
-        if (active) {
-          setState({ loading: false, items });
-        }
-      });
+    expect(hymn.title).toBe('Mahamrityunjaya');
+    expect(hymn.translation).toContain('Three-eyed One');
+    expect(metadata.source).toBe('Mock Vedabase corpus');
+    expect(chapterHymns.map((entry) => entry.id)).toEqual(['mahamrityunjaya']);
+  });
 
-    return () => {
-      active = false;
-    };
-  }, [query]);
-
-  return state;
-}
-
-describe('useVedabase', () => {
-  it('loads vedabase data from mocked fetch', async () => {
-    (fetch as any).mockImplementation(mockFetchVedabaseSuccess);
-
-    const { result } = renderHook(() => useVedabase('dharma'));
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    expect(fetch).toHaveBeenCalledWith('/api/vedabase?q=dharma');
-    expect(result.current.items).toEqual(vedabaseResponse);
+  it('throws for unknown hymn ids in mock mode', async () => {
+    await expect(getHymnById('missing-hymn')).rejects.toThrow(
+      'Mock Vedabase hymn not found: missing-hymn',
+    );
   });
 });

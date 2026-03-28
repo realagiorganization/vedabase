@@ -1,20 +1,20 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { DocsPage } from './pages/DocsPage';
 import { HomePage } from './pages/HomePage';
+import { HymnPage } from './pages/HymnPage';
+import { MurtiPage } from './pages/MurtiPage';
+import { TranslatorPage } from './pages/TranslatorPage';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen flex flex-col bg-slate-50">
-        <Header />
-        <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/docs" element={<DocsPage />} />
+        <Route path="/hymn" element={<HymnPage />} />
+        <Route path="/murti" element={<MurtiPage />} />
+        <Route path="/translator" element={<TranslatorPage />} />
+      </Routes>
     </BrowserRouter>
   );
 }

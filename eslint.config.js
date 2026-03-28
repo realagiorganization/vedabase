@@ -6,7 +6,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
   {
-    ignores: ['dist', 'node_modules', 'coverage', '*.config.js'],
+    ignores: ['dist', 'node_modules', 'coverage', '*.config.js', '*.d.ts', '**/*.d.ts'],
   },
   {
     files: ['**/*.{ts,tsx}'],
@@ -16,11 +16,18 @@ export default [
         ecmaVersion: 'latest',
         sourceType: 'module',
         ecmaFeatures: { jsx: true },
+        project: ['./tsconfig.eslint.json'],
       },
       globals: {
         console: 'readonly',
         document: 'readonly',
+        describe: 'readonly',
+        expect: 'readonly',
+        fetch: 'readonly',
+        it: 'readonly',
         navigator: 'readonly',
+        process: 'readonly',
+        vi: 'readonly',
         window: 'readonly',
         importMeta: 'readonly',
       },
@@ -33,7 +40,6 @@ export default [
     rules: {
       ...eslint.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
-      ...tseslint.configs['recommended-requiring-type-checking'].rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',

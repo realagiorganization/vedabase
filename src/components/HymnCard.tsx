@@ -24,7 +24,7 @@ export function HymnCard({ hymn = PLACEHOLDER_HYMN, onSelect }: HymnCardProps) {
       className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-amber-300 hover:shadow"
       role="button"
       tabIndex={0}
-      onKeyDown={(event) => event.key === 'Enter' && onSelect?.(hymn.id)}
+      onKeyDown={(event: { key: string }) => event.key === 'Enter' && onSelect?.(hymn.id)}
       aria-label={`Open hymn ${hymn.title}`}
     >
       <div className="mb-3 flex items-start justify-between">

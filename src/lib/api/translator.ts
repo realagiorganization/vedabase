@@ -1,32 +1,9 @@
 import type { Pronunciation, Translation, Underword } from "./types";
+import { apiContracts } from "./contracts";
+import { API_BASE_URL, requestContractJson } from "./http";
 
-const API_BASE_URL = (
-  import.meta as ImportMeta & {
-    env?: Record<string, string | undefined>;
-  }
-).env?.VITE_API_BASE_URL;
-
-async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
-  if (!API_BASE_URL) {
-    throw new Error("VITE_API_BASE_URL is not configured");
-  }
-
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...(init?.headers ?? {}),
-    },
-    ...init,
-  });
-
-  if (!response.ok) {
-    const message = await response.text().catch(() => "");
-    throw new Error(
-      `Translator API error (${response.status}): ${message || response.statusText}`,
-    );
-  }
-
-  return (await response.json()) as T;
+function splitTerms(sanskrit: string): string[] {
+  return sanskrit.split(/\s+/).filter(Boolean);
 }
 
 /**
@@ -36,9 +13,26 @@ export async function translateVerse(
   sanskrit: string,
   targetLang: string,
 ): Promise<Translation> {
-  return requestJson<Translation>("/translator/verse", {
-    method: "POST",
-    body: JSON.stringify({ sanskrit, targetLang }),
+  const request = apiContracts.translator.translateVerse.validateRequest({
+    sanskrit,
+    targetLang,
+  });
+
+  if (!API_BASE_URL) {
+    return {
+      original: request.sanskrit,
+      targetLang: request.targetLang,
+      translatedText:
+        request.targetLang.toLowerCase() === "english"
+          ? "May we meditate on the divine radiance that illuminates understanding."
+          : `[${request.targetLang}] Mock translation for: ${request.sanskrit}`,
+      confidence: 0.92,
+    };
+  }
+
+  return requestContractJson(apiContracts.translator.translateVerse, request, {
+    method: apiContracts.translator.translateVerse.method,
+    body: JSON.stringify(request),
   });
 }
 
@@ -46,9 +40,23 @@ export async function translateVerse(
  * Returns segmented underword analysis for Sanskrit input.
  */
 export async function getUnderword(sanskrit: string): Promise<Underword[]> {
-  return requestJson<Underword[]>("/translator/underword", {
-    method: "POST",
-    body: JSON.stringify({ sanskrit }),
+  const request = apiContracts.translator.underword.validateRequest({ sanskrit });
+
+  if (!API_BASE_URL) {
+    return splitTerms(request.sanskrit).map((term, index) => ({
+      term,
+      root: term,
+      meaning:
+        index === 0
+          ? "sacred invocation"
+          : `mock gloss ${index + 1} for ${term}`,
+      grammar: index === 0 ? "particle" : "nominal segment",
+    }));
+  }
+
+  return requestContractJson(apiContracts.translator.underword, request, {
+    method: apiContracts.translator.underword.method,
+    body: JSON.stringify(request),
   });
 }
 
@@ -58,8 +66,22 @@ export async function getUnderword(sanskrit: string): Promise<Underword[]> {
 export async function getPronunciation(
   sanskrit: string,
 ): Promise<Pronunciation> {
-  return requestJson<Pronunciation>("/translator/pronunciation", {
-    method: "POST",
-    body: JSON.stringify({ sanskrit }),
+  const request = apiContracts.translator.pronunciation.validateRequest({
+    sanskrit,
+  });
+
+  if (!API_BASE_URL) {
+    const syllables = splitTerms(request.sanskrit);
+
+    return {
+      text: request.sanskrit,
+      ipa: "/oːm bʱuːr bʱuʋəɦ/",
+      syllables,
+    };
+  }
+
+  return requestContractJson(apiContracts.translator.pronunciation, request, {
+    method: apiContracts.translator.pronunciation.method,
+    body: JSON.stringify(request),
   });
 }

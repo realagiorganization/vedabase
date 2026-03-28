@@ -10,7 +10,7 @@ vi.mock('@/lib/api/vedabase', () => ({
 import { searchHymns, getHymnById } from '@/lib/api/vedabase';
 
 const mockSearchHymns = searchHymns as ReturnType<typeof vi.fn>;
-const mockGetHymnById = getHymnById as ReturnType<typeof vi.fn>;
+void getHymnById;
 
 describe('useHymns', () => {
   beforeEach(() => {
