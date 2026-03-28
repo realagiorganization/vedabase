@@ -1,0 +1,13 @@
+{
+  "dataset": "vedabase-dump",
+  "sourceUrl": "file:///home/standart/vedabase/data/cache/vedabase-index.json",
+  "fetchedAt": "2026-03-28T21:28:36.865Z",
+  "checksumSha256": "53cf68373753e3022fce7e1e22c95e263c1d7876441ee36e7c69fe5033e293b0",
+  "bytes": 2987,
+  "itemCount": 4,
+  "complete": true,
+  "status": "fresh",
+  "notes": [
+    "Immediate fetch completed."
+  ]
+}

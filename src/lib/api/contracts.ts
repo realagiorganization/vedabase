@@ -4,11 +4,13 @@ import type {
   Metadata,
   MurtiImage,
   Pronunciation,
+  RemoteSyncStatus,
   Recording,
   StreamInfo,
   Style,
   Translation,
   Underword,
+  YouTubeSearchResult,
 } from './types';
 
 export type ApiMethod = 'GET' | 'POST';
@@ -78,6 +80,11 @@ export interface YouTubeStreamRequest {
 
 export interface RecordingRequest {
   sessionId: string;
+}
+
+export interface YouTubeSearchRequest {
+  query: string;
+  hymnId?: string;
 }
 
 function requireNonEmptyString(
@@ -159,6 +166,13 @@ export const apiContracts = {
       }),
       responseExample: {} as Metadata,
     } satisfies ApiContract<HymnByIdRequest, Metadata>,
+    syncStatus: {
+      key: 'vedabase.syncStatus',
+      method: 'GET',
+      path: '/api/vedabase/sync/status',
+      validateRequest: () => ({}),
+      responseExample: {} as RemoteSyncStatus,
+    } satisfies ApiContract<Record<string, never>, RemoteSyncStatus>,
   },
   translator: {
     translateVerse: {
@@ -280,5 +294,35 @@ export const apiContracts = {
       }),
       responseExample: {} as Recording,
     } satisfies ApiContract<RecordingRequest, Recording>,
+    searchVideos: {
+      key: 'youtube.searchVideos',
+      method: 'GET',
+      path: ({ query, hymnId }: YouTubeSearchRequest) =>
+        `/api/youtube/search?${new URLSearchParams({
+          query: requireNonEmptyString(query, 'query', 'youtube.searchVideos'),
+          ...(hymnId
+            ? {
+                hymnId: requireNonEmptyString(
+                  hymnId,
+                  'hymnId',
+                  'youtube.searchVideos',
+                ),
+              }
+            : {}),
+        }).toString()}`,
+      validateRequest: ({ query, hymnId }: YouTubeSearchRequest) => ({
+        query: requireNonEmptyString(query, 'query', 'youtube.searchVideos'),
+        ...(hymnId
+          ? {
+              hymnId: requireNonEmptyString(
+                hymnId,
+                'hymnId',
+                'youtube.searchVideos',
+              ),
+            }
+          : {}),
+      }),
+      responseExample: [] as YouTubeSearchResult[],
+    } satisfies ApiContract<YouTubeSearchRequest, YouTubeSearchResult[]>,
   },
 };

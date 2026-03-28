@@ -6,9 +6,13 @@
   "packageManager": "npm@10",
   "scripts": {
     "dev": "vite",
+    "data:sync:vedabase": "node scripts/sync-vedabase-dump.mjs",
+    "data:sync:youtube": "node scripts/sync-youtube-search.mjs",
+    "data:generate": "node scripts/generate-remote-data-module.mjs",
+    "data:verify": "npm run data:generate && node scripts/verify-remote-datasources.mjs",
     "docs:generate": "node scripts/generate-docs.mjs",
     "docs:test": "npm run build && node scripts/verify-docs-site.mjs",
-    "prebuild": "npm run docs:generate",
+    "prebuild": "npm run docs:generate && npm run data:generate",
     "build": "tsc -b && vite build",
     "postbuild": "node scripts/prepare-pages-spa.mjs",
     "preview": "vite preview",
@@ -19,7 +23,7 @@
     "test:ci": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "verify": "npm run lint && npm run typecheck && npm run test -- --run && npm run build",
-    "verify:strict": "npm run lint && npm run typecheck && npm run test:ci && npm run docs:test"
+    "verify:strict": "npm run lint && npm run typecheck && npm run test:ci && npm run data:verify && npm run docs:test"
   },
   "dependencies": {
     "react": "^18.3.1",

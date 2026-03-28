@@ -1,6 +1,7 @@
 import type React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { HomePage } from '../../src/pages/HomePage';
 import { HymnPage } from '../../src/pages/HymnPage';
 import { MurtiPage } from '../../src/pages/MurtiPage';
 import { TranslatorPage } from '../../src/pages/TranslatorPage';
@@ -10,6 +11,18 @@ function renderWithRouter(element: React.ReactElement) {
 }
 
 describe('feature pages', () => {
+  it('renders synchronized hymn and youtube search surfaces on the home page', async () => {
+    renderWithRouter(<HomePage />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Vedabase dump/i)).toBeInTheDocument();
+    });
+
+    expect(screen.getAllByText(/Status: fresh \/ complete: true/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: 'Featured Hymns' })).toBeInTheDocument();
+    expect(screen.getByText(/Cached YouTube Reciter Search/i)).toBeInTheDocument();
+  });
+
   it('renders hymn page with recorder and karaoke content', async () => {
     renderWithRouter(<HymnPage />);
 
@@ -23,7 +36,7 @@ describe('feature pages', () => {
       screen.getByRole('heading', { name: 'Gayatri Mantra Reciter' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Mock Vedabase corpus/i),
+      screen.getByText(/Seed synchronized Vedabase corpus/i),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('heading', { name: 'Karaoke Recitation' }),

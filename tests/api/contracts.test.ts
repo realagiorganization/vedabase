@@ -28,6 +28,9 @@ describe('api contracts', () => {
     expect(
       resolveContractPath(apiContracts.translator.translateVerse, translatorRequest),
     ).toBe('/api/translator/verse');
+    expect(
+      resolveContractPath(apiContracts.vedabase.syncStatus, {}),
+    ).toBe('/api/vedabase/sync/status');
   });
 
   it('validates murti and youtube request shapes', () => {
@@ -49,6 +52,15 @@ describe('api contracts', () => {
         }),
       ),
     ).toBe('/api/youtube/streams/gayatri-mantra');
+    expect(
+      resolveContractPath(
+        apiContracts.youtube.searchVideos,
+        apiContracts.youtube.searchVideos.validateRequest({
+          query: 'Gayatri Mantra',
+          hymnId: 'gayatri-mantra',
+        }),
+      ),
+    ).toBe('/api/youtube/search?query=Gayatri+Mantra&hymnId=gayatri-mantra');
   });
 
   it('throws deterministic api errors for invalid requests', () => {

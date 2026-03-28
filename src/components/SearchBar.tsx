@@ -3,6 +3,8 @@ import { useState } from 'react';
 interface SearchBarProps {
   placeholder?: string;
   suggestions?: string[];
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
 const PLACEHOLDER_SUGGESTIONS = [
@@ -15,8 +17,20 @@ const PLACEHOLDER_SUGGESTIONS = [
 export function SearchBar({
   placeholder = 'Search hymns, deities, and verses',
   suggestions = PLACEHOLDER_SUGGESTIONS,
+  value,
+  onChange,
 }: SearchBarProps) {
-  const [query, setQuery] = useState('');
+  const [internalQuery, setInternalQuery] = useState('');
+  const query = value ?? internalQuery;
+  const setQuery = (nextValue: string) => {
+    if (typeof value === 'string' && onChange) {
+      onChange(nextValue);
+      return;
+    }
+
+    setInternalQuery(nextValue);
+    onChange?.(nextValue);
+  };
   const filteredSuggestions = suggestions.filter((suggestion) =>
     query.trim()
       ? suggestion.toLowerCase().includes(query.trim().toLowerCase())

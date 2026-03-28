@@ -1,0 +1,78 @@
+{
+  "generatedAt": "2026-03-28T18:00:00.000Z",
+  "dataset": "vedabase-dump",
+  "hymns": [
+    {
+      "id": "gayatri-mantra",
+      "chapterId": "rigveda-3-62-10",
+      "title": "Gayatri Mantra",
+      "sanskrit": "ॐ भूर् भुवः स्वः तत् सवितुर्वरेण्यं",
+      "transliteration": "om bhur bhuvah svah tat savitur varenyam",
+      "translation": "We meditate on the adorable radiance of Savitar.",
+      "deity": "Savitar",
+      "verseCount": 24,
+      "tags": ["featured", "karaoke", "savitar"],
+      "metadata": {
+        "id": "meta-gayatri-mantra",
+        "chapterId": "rigveda-3-62-10",
+        "title": "Rigveda 3.62.10",
+        "source": "Seed synchronized Vedabase corpus",
+        "tags": ["featured", "karaoke", "savitar"]
+      }
+    },
+    {
+      "id": "mahamrityunjaya",
+      "chapterId": "rigveda-7-59-12",
+      "title": "Mahamrityunjaya",
+      "sanskrit": "ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्",
+      "transliteration": "om tryambakam yajamahe sugandhim pustivardhanam",
+      "translation": "We worship the fragrant Three-eyed One who nourishes all beings.",
+      "deity": "Shiva",
+      "verseCount": 33,
+      "tags": ["featured", "shiva", "healing"],
+      "metadata": {
+        "id": "meta-mahamrityunjaya",
+        "chapterId": "rigveda-7-59-12",
+        "title": "Rigveda 7.59.12",
+        "source": "Seed synchronized Vedabase corpus",
+        "tags": ["featured", "shiva", "healing"]
+      }
+    },
+    {
+      "id": "durga-suktam",
+      "chapterId": "taittiriya-aranyaka-4",
+      "title": "Durga Suktam",
+      "sanskrit": "ॐ जातवेदसे सुनवाम सोमम्",
+      "transliteration": "om jatavedase sunavama somam",
+      "translation": "We invoke the all-knowing fire to guide us through difficulty.",
+      "deity": "Durga",
+      "verseCount": 18,
+      "tags": ["featured", "durga", "protection"],
+      "metadata": {
+        "id": "meta-durga-suktam",
+        "chapterId": "taittiriya-aranyaka-4",
+        "title": "Taittiriya Aranyaka 4",
+        "source": "Seed synchronized Vedabase corpus",
+        "tags": ["featured", "durga", "protection"]
+      }
+    },
+    {
+      "id": "sri-gurvastakam",
+      "chapterId": "gaudiya-kirtana-1",
+      "title": "Sri Gurvastakam",
+      "sanskrit": "संसार-दावानल-लीढ-लोक",
+      "transliteration": "samsara-davanala-lidha-loka",
+      "translation": "The spiritual master receives the suffering world from the blazing fire of material existence.",
+      "deity": "Guru",
+      "verseCount": 8,
+      "tags": ["guru", "featured", "study"],
+      "metadata": {
+        "id": "meta-sri-gurvastakam",
+        "chapterId": "gaudiya-kirtana-1",
+        "title": "Gaudiya Kirtana 1",
+        "source": "Seed synchronized Vedabase corpus",
+        "tags": ["guru", "featured", "study"]
+      }
+    }
+  ]
+}

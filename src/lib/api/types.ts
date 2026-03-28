@@ -15,6 +15,10 @@ export interface Hymn {
   sanskrit: string;
   transliteration?: string;
   translation?: string;
+  deity?: string;
+  verseCount?: number;
+  tags?: string[];
+  sourceUrl?: string;
   metadata?: Metadata;
 }
 
@@ -70,6 +74,53 @@ export interface StreamInfo {
   platform?: string;
   isLive?: boolean;
   startedAt?: string;
+}
+
+export interface YouTubeSearchResult {
+  query: string;
+  hymnId?: string;
+  videoId: string;
+  title: string;
+  channelTitle: string;
+  description?: string;
+  publishedAt?: string;
+  thumbnailUrl?: string;
+  url: string;
+}
+
+export type RemoteDatasetStatus =
+  | 'idle'
+  | 'fresh'
+  | 'stale'
+  | 'incomplete'
+  | 'failed';
+
+export interface RemoteDatasetMeta {
+  dataset: string;
+  sourceUrl?: string;
+  fetchedAt?: string;
+  checksumSha256?: string;
+  bytes?: number;
+  itemCount: number;
+  complete: boolean;
+  status: RemoteDatasetStatus;
+  notes?: string[];
+}
+
+export interface RemoteSyncReport {
+  generatedAt: string;
+  datasets: Array<{
+    dataset: string;
+    status: RemoteDatasetStatus;
+    complete: boolean;
+    itemCount: number;
+  }>;
+}
+
+export interface RemoteSyncStatus {
+  vedabase: RemoteDatasetMeta;
+  youtube: RemoteDatasetMeta;
+  report: RemoteSyncReport;
 }
 
 export interface Recording {

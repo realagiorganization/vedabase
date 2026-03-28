@@ -1,4 +1,4 @@
-.PHONY: install dev build preview test lint lint\:fix typecheck verify verify-strict docs-test act-run act-run-yellow predictive-build-test-all
+.PHONY: install dev build preview test lint lint\:fix typecheck verify verify-strict docs-test act-run act-run-yellow predictive-build-test-all data-sync-vedabase data-sync-youtube data-generate data-verify
 
 install:
 	npm install
@@ -32,6 +32,18 @@ verify-strict:
 
 docs-test:
 	npm run docs:test
+
+data-sync-vedabase:
+	npm run data:sync:vedabase
+
+data-sync-youtube:
+	npm run data:sync:youtube
+
+data-generate:
+	npm run data:generate
+
+data-verify:
+	npm run data:verify
 
 act-run:
 	act

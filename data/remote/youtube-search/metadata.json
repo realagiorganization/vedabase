@@ -1,0 +1,13 @@
+{
+  "dataset": "youtube-search",
+  "sourceUrl": "seed://local-sample",
+  "fetchedAt": "2026-03-28T18:00:00.000Z",
+  "checksumSha256": "seed-local-sample",
+  "bytes": 0,
+  "itemCount": 4,
+  "complete": true,
+  "status": "fresh",
+  "notes": [
+    "Seed metadata committed for deterministic local builds."
+  ]
+}

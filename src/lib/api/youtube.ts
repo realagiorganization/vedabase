@@ -1,23 +1,10 @@
-import type { Recording, StreamInfo } from "./types";
+import type { Recording, StreamInfo, YouTubeSearchResult } from "./types";
 import { apiContracts } from "./contracts";
 import { API_BASE_URL, requestContractJson } from "./http";
-
-const MOCK_STREAMS: Record<string, StreamInfo> = {
-  "gayatri-mantra": {
-    hymnId: "gayatri-mantra",
-    streamUrl: "https://youtube.com/watch?v=gayatri-demo",
-    platform: "YouTube",
-    isLive: false,
-    startedAt: "2026-03-27T06:00:00.000Z",
-  },
-  mahamrityunjaya: {
-    hymnId: "mahamrityunjaya",
-    streamUrl: "https://youtube.com/watch?v=mahamrityunjaya-demo",
-    platform: "YouTube",
-    isLive: true,
-    startedAt: "2026-03-27T06:15:00.000Z",
-  },
-};
+import {
+  getLocalYouTubeResultForHymn,
+  getLocalYouTubeResults,
+} from "./localData";
 
 function createMockRecording(
   sessionId: string,
@@ -42,14 +29,17 @@ export async function getYouTubeStream(hymnId: string): Promise<StreamInfo> {
   const request = apiContracts.youtube.streamInfo.validateRequest({ hymnId });
 
   if (!API_BASE_URL) {
-    return (
-      MOCK_STREAMS[request.hymnId] ?? {
-        hymnId: request.hymnId,
-        streamUrl: `https://youtube.com/watch?v=${encodeURIComponent(request.hymnId)}-demo`,
-        platform: "YouTube",
-        isLive: false,
-      }
-    );
+    const result = getLocalYouTubeResultForHymn(request.hymnId);
+
+    return {
+      hymnId: request.hymnId,
+      streamUrl:
+        result?.url ??
+        `https://youtube.com/watch?v=${encodeURIComponent(request.hymnId)}-demo`,
+      platform: "YouTube",
+      isLive: false,
+      startedAt: result?.publishedAt,
+    };
   }
 
   return requestContractJson(apiContracts.youtube.streamInfo, request, {
@@ -90,5 +80,23 @@ export async function stopRecording(sessionId: string): Promise<Recording> {
   return requestContractJson(apiContracts.youtube.stopRecording, request, {
     method: apiContracts.youtube.stopRecording.method,
     body: JSON.stringify(request),
+  });
+}
+
+export async function searchYouTubeVideos(
+  query: string,
+  hymnId?: string,
+): Promise<YouTubeSearchResult[]> {
+  const request = apiContracts.youtube.searchVideos.validateRequest({
+    query,
+    ...(hymnId ? { hymnId } : {}),
+  });
+
+  if (!API_BASE_URL) {
+    return getLocalYouTubeResults(request.query, request.hymnId);
+  }
+
+  return requestContractJson(apiContracts.youtube.searchVideos, request, {
+    method: apiContracts.youtube.searchVideos.method,
   });
 }

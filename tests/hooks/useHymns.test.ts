@@ -5,6 +5,11 @@ import { useHymns } from '@/hooks/useHymns';
 vi.mock('@/lib/api/vedabase', () => ({
   searchHymns: vi.fn(),
   getHymnById: vi.fn(),
+  getVedabaseSyncStatus: vi.fn(),
+}));
+
+vi.mock('@/lib/api/youtube', () => ({
+  searchYouTubeVideos: vi.fn(),
 }));
 
 import { searchHymns, getHymnById } from '@/lib/api/vedabase';
