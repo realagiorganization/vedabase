@@ -187,6 +187,11 @@ find /home/standart -type f -name '.*' -print0 | xargs -0 git add -f
 - For katas/tasks, use slug-first naming for directories, files, tests, and commands.
 - If prompt wording conflicts with repository naming, align implementation names to source and map prompt terms in docs only.
 
+## Module 14: New Repository Remote Initialization Policy
+
+- When creating or adopting a new local Git repository for Vedabase-adjacent work, initialize a GitHub remote in `realagiorganization` by default with `gh repo create`.
+- Set `origin` during initialization and push the default branch after local verification gates pass.
+
 ## Vedabase Application Engineering Directives
 
 These directives are mandatory for all Vedabase product work.
