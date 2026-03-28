@@ -154,6 +154,22 @@ make install
 make dev
 ```
 
+## Nintendo DS Subproject
+
+The standalone Nintendo DS homebrew workspace lives in
+[`subprojects/ds-hymn-rom`](/home/standart/vedabase/subprojects/ds-hymn-rom).
+
+```bash
+cd subprojects/ds-hymn-rom
+make install
+make verify
+make docker-build-rom
+```
+
+It statically generates ARM9 catalog sources from JSON hymn mocks, runs its own
+lint and mocked tests, and builds a `.nds` ROM through the Dockerized BlocksDS
+toolchain.
+
 ## Verify Before Commit
 
 ```bash

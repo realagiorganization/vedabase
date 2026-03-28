@@ -78,3 +78,17 @@ If warning-mode is explicitly accepted:
 ```bash
 make act-run-yellow
 ```
+
+## Nintendo DS ROM Workspace
+
+Build the Dockerized Nintendo DS hymn ROM subproject independently:
+
+```bash
+cd subprojects/ds-hymn-rom
+make install
+make verify
+make docker-build-rom
+```
+
+This subproject uses BlocksDS in Docker and keeps its lint, mocked tests, and
+ROM build chain isolated from the parent Vite app.

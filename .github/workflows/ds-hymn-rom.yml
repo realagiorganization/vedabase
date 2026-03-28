@@ -1,0 +1,130 @@
+name: DS Hymn ROM
+
+on:
+  push:
+    paths:
+      - '.github/workflows/ds-hymn-rom.yml'
+      - 'subprojects/ds-hymn-rom/**'
+  pull_request:
+    paths:
+      - '.github/workflows/ds-hymn-rom.yml'
+      - 'subprojects/ds-hymn-rom/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint and mocked tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: subprojects/ds-hymn-rom
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: subprojects/ds-hymn-rom/package-lock.json
+      - name: Install
+        run: make install
+      - name: Verify generator, lint, and tests
+        run: make verify
+
+  rom:
+    name: Build Nintendo DS ROM
+    runs-on: ubuntu-latest
+    needs: quality
+    defaults:
+      run:
+        working-directory: subprojects/ds-hymn-rom
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate static sources and build ROM in Docker
+        run: make docker-build-rom
+      - name: Upload ROM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ds-hymn-rom
+          path: subprojects/ds-hymn-rom/vedabase_hymn_favorites.nds
+          retention-days: 7
+
+  emulator:
+    name: Emulator smoke and media capture
+    runs-on: ubuntu-latest
+    needs: rom
+    defaults:
+      run:
+        working-directory: subprojects/ds-hymn-rom
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ds-hymn-rom
+          path: subprojects/ds-hymn-rom
+      - name: Install emulator dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            extra-cmake-modules \
+            libcurl4-gnutls-dev \
+            libpcap0.8-dev \
+            libsdl2-dev \
+            libarchive-dev \
+            libenet-dev \
+            libzstd-dev \
+            libfaad-dev \
+            xvfb \
+            ffmpeg \
+            imagemagick
+          if apt-cache show qt6-multimedia-dev >/dev/null 2>&1; then
+            sudo apt-get install -y qt6-base-dev qt6-base-private-dev qt6-multimedia-dev qt6-svg-dev
+          else
+            sudo apt-get install -y qtbase6-dev qtbase6-private-dev qtmultimedia6-dev libqt6svg6-dev
+          fi
+      - name: Build melonDS
+        run: |
+          git clone --depth 1 https://github.com/melonDS-emu/melonDS external/melonDS
+          cmake -S external/melonDS -B external/melonDS/build
+          cmake --build external/melonDS/build -j"$(nproc)"
+      - name: Run emulator smoke capture
+        run: |
+          chmod +x scripts/emulator-smoke.sh
+          EMULATOR_BIN="$PWD/external/melonDS/build/melonDS" \
+          ROM_PATH="$PWD/vedabase_hymn_favorites.nds" \
+          OUT_DIR="$PWD/artifacts/emulator-media" \
+          bash scripts/emulator-smoke.sh
+      - name: Upload emulator media artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ds-hymn-rom-emulator-media
+          path: subprojects/ds-hymn-rom/artifacts/emulator-media
+          retention-days: 7
+
+  publish-media:
+    name: Publish README media
+    runs-on: ubuntu-latest
+    needs: emulator
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ds-hymn-rom-emulator-media
+          path: subprojects/ds-hymn-rom/artifacts/emulator-media
+      - name: Configure Git identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Publish media branch
+        env:
+          REPO_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          SOURCE_DIR: ${{ github.workspace }}/subprojects/ds-hymn-rom/artifacts/emulator-media
+        run: |
+          chmod +x subprojects/ds-hymn-rom/scripts/publish-media-branch.sh
+          subprojects/ds-hymn-rom/scripts/publish-media-branch.sh

@@ -1,0 +1,7 @@
+build/
+coverage/
+artifacts/
+external/
+generated/
+node_modules/
+vedabase_hymn_favorites.nds

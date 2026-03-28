@@ -1,0 +1,56 @@
+{
+  "catalogTitle": "Vedabase Favorites",
+  "languages": [
+    "en",
+    "ru",
+    "hi",
+    "es"
+  ],
+  "favorites": [
+    {
+      "id": "sri-gurvastakam",
+      "title": "Sri Gurvastakam",
+      "source": "Sri Gurvastakam",
+      "transcription": [
+        "sri-guru-carana-padma kevala-bhakati-sadma",
+        "bando mui savadhana mate"
+      ],
+      "translations": {
+        "en": "I bow with care to the lotus feet of the spiritual master, the home of pure devotion.",
+        "ru": "Я с почтением склоняюсь к лотосным стопам духовного учителя, обители чистой преданности.",
+        "hi": "मैं सावधानी से गुरु के चरणकमलों को प्रणाम करता हूं, जो शुद्ध भक्ति का धाम हैं।",
+        "es": "Me inclino con cuidado ante los pies de loto del maestro espiritual, morada de la devocion pura."
+      }
+    },
+    {
+      "id": "gurv-astaka-refrain",
+      "title": "Gurv-astaka Refrain",
+      "source": "Sri Gurvastakam",
+      "transcription": [
+        "yasya prasadad bhagavat-prasado",
+        "yasyaprasadan na gatih kuto 'pi"
+      ],
+      "translations": {
+        "en": "By his mercy one receives the Lord's mercy; without his grace there is no shelter.",
+        "ru": "По его милости приходит милость Господа; без его благосклонности нет прибежища.",
+        "hi": "उनकी कृपा से भगवान की कृपा मिलती है; उनकी प्रसन्नता बिना कोई आश्रय नहीं।",
+        "es": "Por su misericordia llega la misericordia del Senor; sin su favor no hay refugio."
+      }
+    },
+    {
+      "id": "nama-sankirtana-chorus",
+      "title": "Nama-sankirtana Chorus",
+      "source": "Sankirtana collection",
+      "transcription": [
+        "hare krsna hare krsna krsna krsna hare hare",
+        "hare rama hare rama rama rama hare hare"
+      ],
+      "translations": {
+        "en": "A congregational call to remember Krishna and Rama through the maha-mantra.",
+        "ru": "Общий призыв помнить Кришну и Раму через маха-мантру.",
+        "hi": "महामंत्र के माध्यम से कृष्ण और राम को स्मरण करने का सामूहिक आह्वान।",
+        "es": "Una invocacion congregacional para recordar a Krishna y Rama por medio del maha-mantra."
+      }
+    }
+  ]
+}
