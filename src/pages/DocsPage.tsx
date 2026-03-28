@@ -20,6 +20,7 @@ export function DocsPage() {
             This page is rendered from generated source data so the documentation site stays aligned with the
             application routes, feature intent, and acceptance scenarios.
           </p>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">{documentationContent.product.purpose}</p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <article className="rounded-2xl bg-slate-950 px-5 py-4 text-slate-50">
@@ -38,6 +39,49 @@ export function DocsPage() {
                 {documentationContent.summary.scenarioCount}
               </p>
             </article>
+          </div>
+        </section>
+
+        <section className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+            <h2 className="text-2xl font-semibold text-slate-900">Phrase-by-phrase README summary</h2>
+            <div className="mt-5 space-y-3">
+              {documentationContent.product.bilingualPhrases.map((item) => (
+                <div key={`${item.emoji}-${item.en}`} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+                  <p className="text-sm font-semibold text-slate-900">
+                    {item.emoji} {item.en}
+                  </p>
+                  <p className="mt-1 text-sm text-slate-600">{item.ru}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+            <h2 className="text-2xl font-semibold text-slate-900">Programmatic surface</h2>
+            <pre className="mt-5 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-sm leading-7 text-emerald-200">
+              <code>{documentationContent.product.programmaticSurface.join('\n')}</code>
+            </pre>
+            <div className="mt-6">
+              <MermaidDiagram
+                chart={documentationContent.product.userActionDiagram.mermaid}
+                title={documentationContent.product.userActionDiagram.title}
+              />
+            </div>
+          </article>
+        </section>
+
+        <section className="mt-10 rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+          <h2 className="text-2xl font-semibold text-slate-900">Pseudographic screenshots</h2>
+          <div className="mt-6 grid gap-6 xl:grid-cols-2">
+            {documentationContent.product.screenshots.map((screenshot) => (
+              <article key={screenshot.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="text-base font-semibold text-slate-900">{screenshot.title}</h3>
+                <pre className="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-xs leading-6 text-amber-100">
+                  <code>{screenshot.art}</code>
+                </pre>
+              </article>
+            ))}
           </div>
         </section>
 

@@ -34,10 +34,41 @@ const markdownSections = [
   "",
   `Documentation site path: ${source.product.sitePath}`,
   "",
+  `Purpose: ${source.product.purpose}`,
+  "",
   `Feature count: ${payload.summary.featureCount}`,
   `BDD scenario count: ${payload.summary.scenarioCount}`,
   "",
+  "## Phrase By Phrase",
+  "",
+  ...source.product.bilingualPhrases.map(
+    (item) => `- ${item.emoji} ${item.en} ${item.ru}`,
+  ),
+  "",
+  "## Programmatic Surface",
+  "",
+  "```text",
+  ...source.product.programmaticSurface,
+  "```",
+  "",
+  "## Global User Actions Diagram",
+  "",
+  "```mermaid",
+  source.product.userActionDiagram.mermaid,
+  "```",
+  "",
+  "## Pseudographic Screenshots",
+  "",
 ];
+
+for (const screenshot of source.product.screenshots) {
+  markdownSections.push(`### ${screenshot.title}`);
+  markdownSections.push("");
+  markdownSections.push("```text");
+  markdownSections.push(screenshot.art);
+  markdownSections.push("```");
+  markdownSections.push("");
+}
 
 for (const feature of source.features) {
   markdownSections.push(`## ${feature.title}`);

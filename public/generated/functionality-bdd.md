@@ -1,11 +1,128 @@
 # Vedabase Functionality and BDD
 
-Generated at: 2026-03-28T16:14:31.903Z
+Generated at: 2026-03-28T18:26:24.247Z
 
 Documentation site path: /docs
 
+Purpose: Vedabase teaches Vedic hymns on desktop and web, then packages chosen hymns into a Nintendo DS homebrew ROM workflow for offline study.
+
 Feature count: 4
 BDD scenario count: 8
+
+## Phrase By Phrase
+
+- 🕉️ Learn Vedic hymns. Учите ведические гимны.
+- 🖥️ Desktop + web. Настольная программа + веб.
+- 🎵 Recite with YouTube guidance. Повторяйте с подсказкой YouTube.
+- 🎤 Read karaoke lines. Читайте караоке-строки.
+- 🔎 Study word by word. Изучайте слово за словом.
+- 🌍 Translate phrase by phrase. Переводите фразу за фразой.
+- 🛕 View devotional murti concepts. Смотрите devotional murti-концепты.
+- 🎮 Build Nintendo DS homebrew hymn ROMs. Собирайте homebrew ROM-файлы Nintendo DS с выбранными гимнами.
+- 🔓 Public docs, no committed secrets. Публичная документация, без закоммиченных секретов.
+
+## Programmatic Surface
+
+```text
+input.reciter_url      -> guided chanting session
+input.hymn_selection   -> hymn reader + karaoke sync
+input.study_phrase     -> translation + underword gloss
+input.style_choice     -> murti concept preview
+input.ds_hymn_bundle   -> Nintendo DS homebrew ROM build target
+```
+
+## Global User Actions Diagram
+
+```mermaid
+flowchart TD
+  A[Open Vedabase] --> B[Pick study mode]
+  B --> C[Paste YouTube reciter URL]
+  B --> D[Open hymn viewer]
+  B --> E[Open translator]
+  B --> F[Open murti viewer]
+  D --> G[Choose hymns]
+  G --> H[Practice with karaoke]
+  H --> I[Review underword meaning]
+  I --> J[Select hymns for export]
+  J --> K[Compile Nintendo DS homebrew ROM]
+  C --> H
+  E --> I
+  F --> H
+  K --> L[Study offline on device or emulator]
+```
+
+## Pseudographic Screenshots
+
+### Home / Reciter
+
+```text
++----------------------------------------------------------------------------------+
+| Vedabase                                                          [Docs] [Study] |
++----------------------------------------------------------------------------------+
+| Learn hymns / Учите гимны                                                         |
+| YouTube URL: [ https://youtu.be/chant-example_______________________________ ]    |
+| [ Start Practice ]  [ Stop ]  [ Replay ]                                         |
+|                                                                                  |
+| Modes:  Reciter  |  Hymn  |  Translator  |  Murti  |  DS Export                  |
+| Status: idle -> recording -> playback                                            |
++----------------------------------------------------------------------------------+
+```
+
+### Karaoke Hymn Viewer
+
+```text
++----------------------------------------------------------------------------------+
+| Hymn: Sri Gurvastakam                                               beat: 04/08  |
++----------------------------------------------------------------------------------+
+| sri-guru-carana-padma         | Word: guru = teacher                              |
+| kevala-bhakati-sadma          | Word: carana = feet                               |
+| bando mui savadhana mate      | Active line: >>> kevala-bhakati-sadma <<<         |
+|                                                                                  |
+| [ Play ] [ Pause ] [ Next line ] [ Save to hymn set ]                            |
++----------------------------------------------------------------------------------+
+```
+
+### Underword Translator
+
+```text
++----------------------------------------------------------------------------------+
+| Translator                                                          Sanskrit -> EN|
++----------------------------------------------------------------------------------+
+| Verse:      gurudeva krpa-bindu diya                                             |
+| Phrase EN:  O master, give one drop of mercy                                     |
+| Phrase RU:  О учитель, даруй одну каплю милости                                  |
+| Underword:  krpa=mercy | bindu=drop | diya=give                                  |
+| Pronounce:  gu-ru-de-va kri-pa bin-du di-ya                                      |
++----------------------------------------------------------------------------------+
+```
+
+### Murti Viewer
+
+```text
++----------------------------------------------------------------------------------+
+| Murti Viewer                                                       style: temple  |
++----------------------------------------------------------------------------------+
+| Deity cards: Krishna | Gaura-Nitai | Jagannatha                                  |
+| Prompt: serene devotional standing pose with warm gold ornaments                 |
+| [ Classic ] [ Temple ] [ Festival ] [ Generate ]                                 |
+| Preview: [ devotional image placeholder ]                                        |
++----------------------------------------------------------------------------------+
+```
+
+### Nintendo DS Export
+
+```text
++----------------------------------------------------------------------------------+
+| DS Hymn ROM Builder                                                 target: NDS   |
++----------------------------------------------------------------------------------+
+| Selected hymns:                                                     count: 3      |
+|  [x] Sri Gurvastakam                                                            |
+|  [x] Gurv-astaka refrain                                                        |
+|  [x] Nama-sankirtana chorus                                                     |
+| Assets: text | transliteration | timing | cover art | menu labels               |
+| [ Validate Set ] [ Build Homebrew ROM ] [ Test in Emulator ]                    |
++----------------------------------------------------------------------------------+
+```
 
 ## YouTube Reciter
 

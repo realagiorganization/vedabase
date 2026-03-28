@@ -33,6 +33,8 @@ const requiredSnippets = [
   "Karaoke Hymn Viewer",
   "Underword Translator",
   "Generative Murti Viewer",
+  "Nintendo DS",
+  "Pseudographic Screenshots",
 ];
 
 for (const snippet of requiredSnippets) {

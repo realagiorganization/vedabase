@@ -15,4 +15,5 @@
 - [x] Add a generated source-of-truth catalog for Vedabase functionality, user actions, and BDD scenarios.
 - [x] Render generated functionality and BDD content into the Vite docs route with Mermaid diagrams.
 - [x] Verify docs artifacts in CI and GitHub Pages workflow steps.
+- [x] Rewrite top-level docs with bilingual product framing, pseudographic screenshots, and Nintendo DS export purpose.
 - [ ] Monitor the remote GitHub Actions and Pages runs after push.

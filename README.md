@@ -9,33 +9,141 @@
 [![Tailwind CSS](https://img.shields.io/badge/tailwindcss-3-38bdf8)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
-Vedabase - YouTube reciter, karaoke viewer for Vedic hymns with underword translator and generative murti viewer.
+Vedabase is a desktop/web hymn-learning studio with a matching docs site.
 
 Repository: https://github.com/realagiorganization/vedabase
 
-## Features
+Docs site: https://realagiorganization.github.io/vedabase/docs
 
-- 🎵 YouTube reciter playback for guided chanting sessions
-- 🎤 Karaoke-style synchronized hymn display for live recitation
-- 🕉️ Underword translator for line-by-line and word-level understanding
-- 🛕 Generative murti viewer for immersive devotional visualization
-- 🌐 API-driven content delivery for hymns, metadata, and translations
+## Phrase By Phrase
 
-## Architecture Overview
+- 🕉️ Learn Vedic hymns. Учите ведические гимны.
+- 🖥️ Desktop + web. Настольная программа + веб.
+- 🎵 Recite with YouTube guidance. Повторяйте с подсказкой YouTube.
+- 🎤 Read karaoke lines. Читайте караоке-строки.
+- 🔎 Study word by word. Изучайте слово за словом.
+- 🌍 Translate phrase by phrase. Переводите фразу за фразой.
+- 🛕 View devotional murti concepts. Смотрите devotional murti-концепты.
+- 🎮 Build Nintendo DS homebrew hymn ROMs. Собирайте homebrew ROM-файлы Nintendo DS с выбранными гимнами.
+- 📚 Choose hymns intentionally. Выбирайте гимны осознанно.
+- 🔁 Practice, compare, repeat. Практикуйтесь, сравнивайте, повторяйте.
+- 🧪 Mockable APIs, deterministic docs. Мокаемые API, детерминированная документация.
+- 🔓 Public docs, no committed secrets. Публичная документация, без закоммиченных секретов.
 
-Vedabase is organized as a modern frontend application with API routes and supporting service modules:
+## Purpose
 
-- React frontend: renders the karaoke viewer, reciter controls, translator, and murti experience
-- API routes: provide endpoints for hymns, verse timing, translation payloads, and media metadata
-- Services layer: encapsulates integrations, business logic, and reusable data-processing utilities
+Vedabase exists to make Vedic hymn learning repeatable on desktop and web, and to package selected hymn sets into a Nintendo DS homebrew ROM build for offline devotional study.
 
-## Tech Stack
+The software combines five surfaces into one study loop:
 
-- React 18
-- TypeScript
-- Vite
-- Tailwind CSS
-- Framer Motion
+- 🎵 YouTube reciter
+- 🎤 karaoke hymn viewer
+- 📖 hymn corpus browser
+- 🕉️ underword translator
+- 🛕 generative murti viewer
+
+## Programmatic Surface
+
+```text
+input.reciter_url      -> guided chanting session
+input.hymn_selection   -> hymn reader + karaoke sync
+input.study_phrase     -> translation + underword gloss
+input.style_choice     -> murti concept preview
+input.ds_hymn_bundle   -> Nintendo DS homebrew ROM build target
+```
+
+## User Actions Diagram
+
+```mermaid
+flowchart TD
+  A[Open Vedabase] --> B[Pick study mode]
+  B --> C[Paste YouTube reciter URL]
+  B --> D[Open hymn viewer]
+  B --> E[Open translator]
+  B --> F[Open murti viewer]
+  D --> G[Choose hymns]
+  G --> H[Practice with karaoke]
+  H --> I[Review underword meaning]
+  I --> J[Select hymns for export]
+  J --> K[Compile Nintendo DS homebrew ROM]
+  C --> H
+  E --> I
+  F --> H
+  K --> L[Study offline on device or emulator]
+```
+
+## Pseudographic Screenshots
+
+### 1. Home / Reciter
+
+```text
++----------------------------------------------------------------------------------+
+| Vedabase                                                          [Docs] [Study] |
++----------------------------------------------------------------------------------+
+| Learn hymns / Учите гимны                                                         |
+| YouTube URL: [ https://youtu.be/chant-example_______________________________ ]    |
+| [ Start Practice ]  [ Stop ]  [ Replay ]                                         |
+|                                                                                  |
+| Modes:  Reciter  |  Hymn  |  Translator  |  Murti  |  DS Export                  |
+| Status: idle -> recording -> playback                                            |
++----------------------------------------------------------------------------------+
+```
+
+### 2. Karaoke Hymn Viewer
+
+```text
++----------------------------------------------------------------------------------+
+| Hymn: Sri Gurvastakam                                               beat: 04/08  |
++----------------------------------------------------------------------------------+
+| sri-guru-carana-padma         | Word: guru = teacher                              |
+| kevala-bhakati-sadma          | Word: carana = feet                               |
+| bando mui savadhana mate      | Active line: >>> kevala-bhakati-sadma <<<         |
+|                                                                                  |
+| [ Play ] [ Pause ] [ Next line ] [ Save to hymn set ]                            |
++----------------------------------------------------------------------------------+
+```
+
+### 3. Underword Translator
+
+```text
++----------------------------------------------------------------------------------+
+| Translator                                                          Sanskrit -> EN|
++----------------------------------------------------------------------------------+
+| Verse:      gurudeva krpa-bindu diya                                             |
+| Phrase EN:  O master, give one drop of mercy                                     |
+| Phrase RU:  О учитель, даруй одну каплю милости                                  |
+| Underword:  krpa=mercy | bindu=drop | diya=give                                  |
+| Pronounce:  gu-ru-de-va kri-pa bin-du di-ya                                      |
++----------------------------------------------------------------------------------+
+```
+
+### 4. Murti Viewer
+
+```text
++----------------------------------------------------------------------------------+
+| Murti Viewer                                                       style: temple  |
++----------------------------------------------------------------------------------+
+| Deity cards: Krishna | Gaura-Nitai | Jagannatha                                  |
+| Prompt: serene devotional standing pose with warm gold ornaments                 |
+| [ Classic ] [ Temple ] [ Festival ] [ Generate ]                                 |
+| Preview: [ devotional image placeholder ]                                        |
++----------------------------------------------------------------------------------+
+```
+
+### 5. Nintendo DS Export
+
+```text
++----------------------------------------------------------------------------------+
+| DS Hymn ROM Builder                                                 target: NDS   |
++----------------------------------------------------------------------------------+
+| Selected hymns:                                                     count: 3      |
+|  [x] Sri Gurvastakam                                                            |
+|  [x] Gurv-astaka refrain                                                        |
+|  [x] Nama-sankirtana chorus                                                     |
+| Assets: text | transliteration | timing | cover art | menu labels               |
+| [ Validate Set ] [ Build Homebrew ROM ] [ Test in Emulator ]                    |
++----------------------------------------------------------------------------------+
+```
 
 ## Quick Start
 
@@ -46,41 +154,27 @@ make install
 make dev
 ```
 
-The app starts in development mode with hot reload.
-
-## Verification
-
-Run the local verification ladder before commit or push:
+## Verify Before Commit
 
 ```bash
-make lint
-make typecheck
-make test
-make build
 make verify
 make verify-strict
+make predictive-build-test-all
 make act-run
 ```
 
-- `make verify` runs lint, typecheck, tests, and production build.
-- `make verify-strict` runs lint, typecheck, coverage tests, and docs-site verification.
-- `make predictive-build-test-all` now uses the stricter verification path.
+## Pages + Generated Docs
 
-## Documentation Site
+- Source-of-truth docs data lives in `src/docs/catalog.json`.
+- Generated docs artifacts are built by `npm run docs:generate`.
+- The Vite docs route and markdown artifact are both checked by `npm run docs:test`.
+- GitHub Pages publishes the generated docs site from `.github/workflows/pages.yml`.
 
-Vedabase now includes an auto-generated documentation site at `/docs`.
+## Security Posture
 
-- Source definitions live in `src/docs/catalog.json`.
-- Generated artifacts are produced by `npm run docs:generate`.
-- The site build and static docs artifacts are verified by `npm run docs:test`.
-- GitHub Pages deploys the generated docs site through `.github/workflows/pages.yml`.
-
-## Contributing
-
-1. Fork the repository and create a feature branch.
-2. Install dependencies with `make install`.
-3. Run local checks with `make verify-strict` and then `make act-run`.
-4. Open a pull request with a clear description and focused scope.
+- No secret keys should be committed.
+- Pages output should include the docs route and generated artifacts.
+- Public repo/public Pages status must be checked before release, not assumed.
 
 ## License
 

@@ -13,6 +13,9 @@ You are operating inside this repository at `/home/standart/vedabase`.
   - `readme.md`
   - `AGENTS.md`
 - Keep binary/media artifacts out by default.
+- Keep the documented product purpose explicit:
+  - desktop/web software for learning Vedic hymns
+  - export/compile chosen hymn sets into a Nintendo DS homebrew ROM workflow
 - Preserve the Vedabase app domain focus:
   - YouTube reciter
   - karaoke viewer
@@ -190,11 +193,13 @@ These directives are mandatory for all Vedabase product work.
 
 ### Product Features (Primary Scope)
 
+- Desktop/web learning workflow for Vedic hymns.
 - YouTube reciter experience for scripture audio/video sessions.
 - Karaoke viewer synchronized with verses and transliteration.
 - Vedic hymns browsing/searching/reading surface.
 - Underword translator for word-level and phrase-level meaning aids.
 - Generative murti viewer for devotional visualization workflows.
+- Nintendo DS homebrew ROM compilation workflow for user-selected hymns.
 
 ### Frontend Stack and Standards
 

@@ -1,21 +1,11 @@
 # Vedabase Installation Guide
 
-This guide covers local setup for Vedabase.
+Install Vedabase to study Vedic hymns on desktop/web and to prepare chosen hymn bundles for Nintendo DS homebrew export.
 
-## Prerequisites
+## Fast Setup
 
-- Node.js 18 or newer
-- npm (bundled with Node.js)
-- Git
-
-Verify versions:
-
-```bash
-node --version
-npm --version
-```
-
-## Installation Steps
+- 🖥️ Need Node.js 18+, npm, Git. Нужны Node.js 18+, npm, Git.
+- 📦 Clone and install. Клонируйте и установите.
 
 ```bash
 git clone https://github.com/realagiorganization/vedabase.git
@@ -23,99 +13,68 @@ cd vedabase
 make install
 ```
 
-If you prefer direct npm usage:
+## Run
 
-```bash
-npm install
-```
-
-## Development Setup
-
-Start the local development server:
+- ▶️ Start dev server. Запустите dev-сервер.
 
 ```bash
 make dev
 ```
 
-Equivalent npm command:
+- Equivalent npm command. Эквивалентная npm-команда.
 
 ```bash
 npm run dev
 ```
 
-## Testing Setup
+## Verify
 
-Run unit/integration tests:
+- 🧪 Tests. Тесты.
 
 ```bash
 make test
 ```
 
-Run lint checks:
+- 🧹 Lint. Линтер.
 
 ```bash
 make lint
 ```
 
-Run type checks:
+- 🔤 Typecheck. Проверка типов.
 
 ```bash
 make typecheck
 ```
 
-Apply lint fixes automatically:
-
-```bash
-make lint:fix
-```
-
-Validate local GitHub Actions jobs:
-
-```bash
-make act-run
-```
-
-If warnings are acceptable for your workflow:
-
-```bash
-make act-run-yellow
-```
-
-## Build Instructions
-
-Create a production build:
+- 🏗️ Production build. Production-сборка.
 
 ```bash
 make build
 ```
 
-Preview the production build locally:
+- 📚 Generate docs artifacts. Сгенерируйте артефакты документации.
 
 ```bash
-make preview
+npm run docs:generate
+npm run docs:test
 ```
 
-Run the consolidated predictive build/test flow:
+- 🔮 Predictive verification. Предиктивная проверка.
 
 ```bash
 make predictive-build-test-all
 ```
 
-Generate the functionality and BDD documentation artifacts:
+- 🚦 Required pre-commit gate. Обязательный gate перед коммитом.
 
 ```bash
-npm run docs:generate
-```
-
-Build and verify the GitHub Pages documentation site output:
-
-```bash
-npm run docs:test
-```
-
-Run the stricter local verification ladder:
-
-```bash
-make verify
 make verify-strict
+make act-run
+```
+
+If warning-mode is explicitly accepted:
+
+```bash
+make act-run-yellow
 ```
