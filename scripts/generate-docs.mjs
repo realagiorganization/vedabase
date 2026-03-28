@@ -5,14 +5,25 @@ const repoRoot = process.cwd();
 const sourcePath = path.join(repoRoot, "src/docs/catalog.json");
 const generatedModulePath = path.join(repoRoot, "src/generated/docs-content.ts");
 const generatedMarkdownPath = path.join(repoRoot, "public/generated/functionality-bdd.md");
+const vedabaseMetadataPath = path.join(repoRoot, "data", "remote", "vedabase-dump", "metadata.json");
+const youtubeMetadataPath = path.join(repoRoot, "data", "remote", "youtube-search", "metadata.json");
+const syncReportPath = path.join(repoRoot, "data", "cache", "sync-report.json");
 
 const rawSource = fs.readFileSync(sourcePath, "utf8");
 const source = JSON.parse(rawSource);
+const vedabaseMetadata = JSON.parse(fs.readFileSync(vedabaseMetadataPath, "utf8"));
+const youtubeMetadata = JSON.parse(fs.readFileSync(youtubeMetadataPath, "utf8"));
+const syncReport = JSON.parse(fs.readFileSync(syncReportPath, "utf8"));
 const generatedAt = new Date().toISOString();
 
 const payload = {
   generatedAt,
   product: source.product,
+  datasourceStatus: {
+    vedabase: vedabaseMetadata,
+    youtube: youtubeMetadata,
+    report: syncReport,
+  },
   summary: {
     featureCount: source.features.length,
     scenarioCount: source.features.reduce(
@@ -35,6 +46,11 @@ const markdownSections = [
   `Documentation site path: ${source.product.sitePath}`,
   "",
   `Purpose: ${source.product.purpose}`,
+  "",
+  "## Datasource Status",
+  "",
+  `Vedabase dump: status=${vedabaseMetadata.status}, complete=${vedabaseMetadata.complete}, itemCount=${vedabaseMetadata.itemCount}, fetchedAt=${vedabaseMetadata.fetchedAt}`,
+  `YouTube search cache: status=${youtubeMetadata.status}, complete=${youtubeMetadata.complete}, itemCount=${youtubeMetadata.itemCount}, fetchedAt=${youtubeMetadata.fetchedAt}`,
   "",
   `Feature count: ${payload.summary.featureCount}`,
   `BDD scenario count: ${payload.summary.scenarioCount}`,

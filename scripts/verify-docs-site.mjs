@@ -35,6 +35,8 @@ const requiredSnippets = [
   "Generative Murti Viewer",
   "Nintendo DS",
   "Pseudographic Screenshots",
+  "Datasource Status",
+  "Vedabase dump",
 ];
 
 for (const snippet of requiredSnippets) {

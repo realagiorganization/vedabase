@@ -44,6 +44,36 @@ export function DocsPage() {
 
         <section className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
           <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+            <h2 className="text-2xl font-semibold text-slate-900">Datasource status</h2>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <section className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4">
+                <p className="text-sm font-semibold text-amber-900">Vedabase dump</p>
+                <p className="mt-2 text-sm text-slate-700">
+                  Status: {documentationContent.datasourceStatus.vedabase.status}
+                </p>
+                <p className="mt-1 text-sm text-slate-700">
+                  Complete: {String(documentationContent.datasourceStatus.vedabase.complete)}
+                </p>
+                <p className="mt-1 text-sm text-slate-700">
+                  Item count: {documentationContent.datasourceStatus.vedabase.itemCount}
+                </p>
+              </section>
+              <section className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+                <p className="text-sm font-semibold text-slate-900">YouTube search cache</p>
+                <p className="mt-2 text-sm text-slate-700">
+                  Status: {documentationContent.datasourceStatus.youtube.status}
+                </p>
+                <p className="mt-1 text-sm text-slate-700">
+                  Complete: {String(documentationContent.datasourceStatus.youtube.complete)}
+                </p>
+                <p className="mt-1 text-sm text-slate-700">
+                  Item count: {documentationContent.datasourceStatus.youtube.itemCount}
+                </p>
+              </section>
+            </div>
+          </article>
+
+          <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
             <h2 className="text-2xl font-semibold text-slate-900">Phrase-by-phrase README summary</h2>
             <div className="mt-5 space-y-3">
               {documentationContent.product.bilingualPhrases.map((item) => (
@@ -57,7 +87,7 @@ export function DocsPage() {
             </div>
           </article>
 
-          <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+          <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] lg:col-span-2">
             <h2 className="text-2xl font-semibold text-slate-900">Programmatic surface</h2>
             <pre className="mt-5 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-sm leading-7 text-emerald-200">
               <code>{documentationContent.product.programmaticSurface.join('\n')}</code>

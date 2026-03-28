@@ -1,10 +1,15 @@
 # Vedabase Functionality and BDD
 
-Generated at: 2026-03-28T18:37:20.352Z
+Generated at: 2026-03-28T21:42:41.920Z
 
 Documentation site path: /docs
 
 Purpose: Vedabase teaches Vedic hymns on desktop and web, then packages chosen hymns into a Nintendo DS homebrew ROM workflow for offline study.
+
+## Datasource Status
+
+Vedabase dump: status=fresh, complete=true, itemCount=4, fetchedAt=2026-03-28T21:28:36.865Z
+YouTube search cache: status=fresh, complete=true, itemCount=4, fetchedAt=2026-03-28T18:00:00.000Z
 
 Feature count: 4
 BDD scenario count: 8

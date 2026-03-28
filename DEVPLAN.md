@@ -72,7 +72,7 @@
   - incomplete
   - fetch failed
 - [x] Write machine-readable sync reports that the app and Codex skills can consume.
-- [ ] Add generated docs sections showing current datasource status, last fetch time, and known gaps.
+- [x] Add generated docs sections showing current datasource status, last fetch time, and known gaps.
 
 ### 6. App Integration
 

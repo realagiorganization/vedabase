@@ -18,6 +18,8 @@ describe('DocsPage', () => {
     expect(screen.getAllByRole('heading', { name: /^Underword Translator$/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('heading', { name: /^Generative Murti Viewer$/i }).length).toBeGreaterThan(0);
     expect(screen.getByText(/Build Nintendo DS homebrew hymn ROMs/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Datasource status/i })).toBeInTheDocument();
+    expect(screen.getByText(/Vedabase dump/i)).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Pseudographic screenshots/i })).toBeInTheDocument();
     expect(screen.getAllByText(/BDD scenarios/i).length).toBeGreaterThan(0);
   });
