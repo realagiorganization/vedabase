@@ -31,6 +31,14 @@ describe('api contracts', () => {
     expect(
       resolveContractPath(apiContracts.vedabase.syncStatus, {}),
     ).toBe('/api/vedabase/sync/status');
+    expect(
+      resolveContractPath(
+        apiContracts.vedabase.completenessDiagnostics,
+        apiContracts.vedabase.completenessDiagnostics.validateRequest({
+          dataset: 'vedabase-dump',
+        }),
+      ),
+    ).toBe('/api/vedabase/sync/diagnostics?dataset=vedabase-dump');
   });
 
   it('validates murti and youtube request shapes', () => {
@@ -61,6 +69,15 @@ describe('api contracts', () => {
         }),
       ),
     ).toBe('/api/youtube/search?query=Gayatri+Mantra&hymnId=gayatri-mantra');
+    expect(
+      apiContracts.vedabase.fetchRemoteDump.validateRequest({
+        dataset: 'vedabase-dump',
+        force: true,
+      }),
+    ).toEqual({
+      dataset: 'vedabase-dump',
+      force: true,
+    });
   });
 
   it('throws deterministic api errors for invalid requests', () => {
@@ -83,5 +100,11 @@ describe('api contracts', () => {
         details: { field: 'deity' },
       });
     }
+
+    expect(() =>
+      apiContracts.vedabase.fetchRemoteDump.validateRequest({
+        dataset: 'archive',
+      } as never),
+    ).toThrow(ApiClientError);
   });
 });

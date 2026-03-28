@@ -1,7 +1,13 @@
 import type {
   DeityInfo,
   Hymn,
+  HymnSearchResponse,
   Metadata,
+  RemoteCompletenessDiagnostics,
+  RemoteDiagnosticsRequest,
+  RemoteFetchRequest,
+  RemoteFetchResponse,
+  RemoteDatasetName,
   MurtiImage,
   Pronunciation,
   RemoteSyncStatus,
@@ -87,6 +93,25 @@ export interface YouTubeSearchRequest {
   hymnId?: string;
 }
 
+function requireDatasetName(
+  value: string,
+  field: string,
+  contractKey: string,
+): RemoteDatasetName {
+  const normalizedValue = requireNonEmptyString(value, field, contractKey);
+
+  if (normalizedValue !== 'vedabase-dump' && normalizedValue !== 'youtube-search') {
+    throw new ApiClientError({
+      status: 400,
+      code: `${contractKey}.invalid_request`,
+      message: `${field} must be one of vedabase-dump or youtube-search`,
+      details: { field },
+    });
+  }
+
+  return normalizedValue;
+}
+
 function requireNonEmptyString(
   value: string,
   field: string,
@@ -120,8 +145,8 @@ export const apiContracts = {
       validateRequest: ({ query }: SearchHymnsRequest) => ({
         query: requireNonEmptyString(query, 'query', 'vedabase.searchHymns'),
       }),
-      responseExample: [] as Hymn[],
-    } satisfies ApiContract<SearchHymnsRequest, Hymn[]>,
+      responseExample: {} as HymnSearchResponse,
+    } satisfies ApiContract<SearchHymnsRequest, HymnSearchResponse>,
     hymnById: {
       key: 'vedabase.hymnById',
       method: 'GET',
@@ -173,6 +198,49 @@ export const apiContracts = {
       validateRequest: () => ({}),
       responseExample: {} as RemoteSyncStatus,
     } satisfies ApiContract<Record<string, never>, RemoteSyncStatus>,
+    fetchRemoteDump: {
+      key: 'vedabase.fetchRemoteDump',
+      method: 'POST',
+      path: '/api/vedabase/sync/fetch',
+      validateRequest: ({ dataset, force, sourceUrl }: RemoteFetchRequest) => ({
+        dataset: requireDatasetName(
+          dataset,
+          'dataset',
+          'vedabase.fetchRemoteDump',
+        ),
+        ...(typeof force === 'boolean' ? { force } : {}),
+        ...(sourceUrl
+          ? {
+              sourceUrl: requireNonEmptyString(
+                sourceUrl,
+                'sourceUrl',
+                'vedabase.fetchRemoteDump',
+              ),
+            }
+          : {}),
+      }),
+      responseExample: {} as RemoteFetchResponse,
+    } satisfies ApiContract<RemoteFetchRequest, RemoteFetchResponse>,
+    completenessDiagnostics: {
+      key: 'vedabase.completenessDiagnostics',
+      method: 'GET',
+      path: ({ dataset }: RemoteDiagnosticsRequest) =>
+        `/api/vedabase/sync/diagnostics?${new URLSearchParams({
+          dataset: requireDatasetName(
+            dataset,
+            'dataset',
+            'vedabase.completenessDiagnostics',
+          ),
+        }).toString()}`,
+      validateRequest: ({ dataset }: RemoteDiagnosticsRequest) => ({
+        dataset: requireDatasetName(
+          dataset,
+          'dataset',
+          'vedabase.completenessDiagnostics',
+        ),
+      }),
+      responseExample: {} as RemoteCompletenessDiagnostics,
+    } satisfies ApiContract<RemoteDiagnosticsRequest, RemoteCompletenessDiagnostics>,
   },
   translator: {
     translateVerse: {

@@ -43,7 +43,7 @@
 ### 3. Remote Search + Fetch API Surface
 
 - [x] Add explicit typed route groups for remote datasource operations, currently under `/api/vedabase/hymns/search`, `/api/vedabase/sync/status`, and `/api/youtube/search`.
-- [ ] Define request/response schemas for:
+- [x] Define request/response schemas for:
   - fetch remote dump
   - inspect sync status
   - run text search across the synchronized dump

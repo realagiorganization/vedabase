@@ -1,22 +1,38 @@
-import type { Hymn, Metadata, RemoteSyncStatus } from "./types";
+import type {
+  Hymn,
+  HymnSearchResponse,
+  Metadata,
+  RemoteCompletenessDiagnostics,
+  RemoteDatasetName,
+  RemoteFetchResponse,
+  RemoteSyncStatus,
+} from "./types";
 import { apiContracts } from "./contracts";
 import { API_BASE_URL, createApiError, requestContractJson } from "./http";
 import {
+  createLocalHymnSearchResponse,
+  createLocalSyncFetchResponse,
   getFeaturedLocalHymns,
+  getLocalCompletenessDiagnostics,
   getLocalHymnById,
   getLocalHymnsByChapter,
   getLocalSyncStatus,
-  searchLocalHymns,
 } from "./localData";
 
 /**
  * Searches Vedabase hymns matching the user query.
  */
 export async function searchHymns(query: string): Promise<Hymn[]> {
+  const response = await searchHymnCorpus(query);
+
+  return response.items;
+}
+
+export async function searchHymnCorpus(query: string): Promise<HymnSearchResponse> {
   const request = apiContracts.vedabase.searchHymns.validateRequest({ query });
 
   if (!API_BASE_URL) {
-    return searchLocalHymns(request.query);
+    return createLocalHymnSearchResponse(request.query);
   }
 
   return requestContractJson(apiContracts.vedabase.searchHymns, request, {
@@ -96,6 +112,39 @@ export async function getVedabaseSyncStatus(): Promise<RemoteSyncStatus> {
 
   return requestContractJson(apiContracts.vedabase.syncStatus, {}, {
     method: apiContracts.vedabase.syncStatus.method,
+  });
+}
+
+export async function fetchVedabaseRemoteDataset(
+  dataset: RemoteDatasetName = "vedabase-dump",
+): Promise<RemoteFetchResponse> {
+  const request = apiContracts.vedabase.fetchRemoteDump.validateRequest({
+    dataset,
+  });
+
+  if (!API_BASE_URL) {
+    return createLocalSyncFetchResponse(request);
+  }
+
+  return requestContractJson(apiContracts.vedabase.fetchRemoteDump, request, {
+    method: apiContracts.vedabase.fetchRemoteDump.method,
+    body: JSON.stringify(request),
+  });
+}
+
+export async function getVedabaseCompletenessDiagnostics(
+  dataset: RemoteDatasetName = "vedabase-dump",
+): Promise<RemoteCompletenessDiagnostics> {
+  const request = apiContracts.vedabase.completenessDiagnostics.validateRequest({
+    dataset,
+  });
+
+  if (!API_BASE_URL) {
+    return getLocalCompletenessDiagnostics(request.dataset);
+  }
+
+  return requestContractJson(apiContracts.vedabase.completenessDiagnostics, request, {
+    method: apiContracts.vedabase.completenessDiagnostics.method,
   });
 }
 

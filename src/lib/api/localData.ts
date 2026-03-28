@@ -1,6 +1,12 @@
 import { remoteDataIndex } from '@/generated/remote-data';
 import type {
   Hymn,
+  HymnSearchResponse,
+  RemoteCompletenessDiagnostics,
+  RemoteDatasetMeta,
+  RemoteDatasetName,
+  RemoteFetchRequest,
+  RemoteFetchResponse,
   RemoteSyncStatus,
   YouTubeSearchResult,
 } from './types';
@@ -48,6 +54,24 @@ export function searchLocalHymns(query: string): Hymn[] {
   return getLocalHymns().filter((hymn) =>
     createSearchHaystack(hymn).includes(normalizedQuery),
   );
+}
+
+function getLocalDatasetMeta(dataset: RemoteDatasetName): RemoteDatasetMeta {
+  return dataset === 'vedabase-dump'
+    ? remoteDataIndex.vedabaseMetadata
+    : remoteDataIndex.youtubeMetadata;
+}
+
+export function createLocalHymnSearchResponse(query: string): HymnSearchResponse {
+  const items = searchLocalHymns(query);
+
+  return {
+    query: normalizeValue(query),
+    total: items.length,
+    items,
+    source: 'local-cache',
+    status: remoteDataIndex.vedabaseMetadata.status,
+  };
 }
 
 export function getFeaturedLocalHymns(limit = 3): Hymn[] {
@@ -102,6 +126,73 @@ export function getLocalSyncStatus(): RemoteSyncStatus {
         ...dataset,
       })),
     },
+  };
+}
+
+export function createLocalSyncFetchResponse(
+  request: RemoteFetchRequest,
+): RemoteFetchResponse {
+  const metadata = getLocalDatasetMeta(request.dataset);
+
+  return {
+    dataset: request.dataset,
+    status: metadata.status,
+    complete: metadata.complete,
+    itemCount: metadata.itemCount,
+    fetchedAt: metadata.fetchedAt,
+    sourceUrl: request.sourceUrl ?? metadata.sourceUrl,
+    notes: [
+      ...(metadata.notes ?? []),
+      'Local fallback returned synchronized metadata without executing a live fetch.',
+    ],
+  };
+}
+
+export function getLocalCompletenessDiagnostics(
+  dataset: RemoteDatasetName,
+): RemoteCompletenessDiagnostics {
+  const metadata = getLocalDatasetMeta(dataset);
+
+  return {
+    dataset,
+    status: metadata.status,
+    complete: metadata.complete,
+    itemCount: metadata.itemCount,
+    fetchedAt: metadata.fetchedAt,
+    sourceUrl: metadata.sourceUrl,
+    checks: [
+      {
+        id: 'fetched-at-present',
+        passed: Boolean(metadata.fetchedAt),
+        message: metadata.fetchedAt
+          ? 'Fetch timestamp is present.'
+          : 'Fetch timestamp is missing.',
+      },
+      {
+        id: 'nonzero-item-count',
+        passed: metadata.itemCount > 0,
+        message:
+          metadata.itemCount > 0
+            ? 'Dataset contains synchronized items.'
+            : 'Dataset item count is zero.',
+      },
+      {
+        id: 'complete-flag',
+        passed: metadata.complete,
+        message: metadata.complete
+          ? 'Dataset is marked complete.'
+          : 'Dataset is marked incomplete.',
+      },
+      {
+        id: 'checksum-or-source',
+        passed: Boolean(metadata.checksumSha256 || metadata.sourceUrl),
+        message:
+          metadata.checksumSha256 || metadata.sourceUrl
+            ? 'Dataset provenance metadata is present.'
+            : 'Dataset provenance metadata is missing.',
+      },
+    ],
+    notes: metadata.notes ? [...metadata.notes] : [],
   };
 }
 

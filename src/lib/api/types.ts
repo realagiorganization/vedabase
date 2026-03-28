@@ -22,6 +22,8 @@ export interface Hymn {
   metadata?: Metadata;
 }
 
+export type RemoteDatasetName = 'vedabase-dump' | 'youtube-search';
+
 export interface Underword {
   term: string;
   root?: string;
@@ -96,7 +98,7 @@ export type RemoteDatasetStatus =
   | 'failed';
 
 export interface RemoteDatasetMeta {
-  dataset: string;
+  dataset: RemoteDatasetName | string;
   sourceUrl?: string;
   fetchedAt?: string;
   checksumSha256?: string;
@@ -104,13 +106,13 @@ export interface RemoteDatasetMeta {
   itemCount: number;
   complete: boolean;
   status: RemoteDatasetStatus;
-  notes?: string[];
+  notes?: readonly string[];
 }
 
 export interface RemoteSyncReport {
   generatedAt: string;
   datasets: Array<{
-    dataset: string;
+    dataset: RemoteDatasetName | string;
     status: RemoteDatasetStatus;
     complete: boolean;
     itemCount: number;
@@ -121,6 +123,51 @@ export interface RemoteSyncStatus {
   vedabase: RemoteDatasetMeta;
   youtube: RemoteDatasetMeta;
   report: RemoteSyncReport;
+}
+
+export interface HymnSearchResponse {
+  query: string;
+  total: number;
+  items: Hymn[];
+  source: 'local-cache' | 'remote-api';
+  status: RemoteDatasetStatus;
+}
+
+export interface RemoteFetchRequest {
+  dataset: RemoteDatasetName;
+  force?: boolean;
+  sourceUrl?: string;
+}
+
+export interface RemoteFetchResponse {
+  dataset: RemoteDatasetName;
+  status: RemoteDatasetStatus;
+  complete: boolean;
+  itemCount: number;
+  fetchedAt?: string;
+  sourceUrl?: string;
+  notes?: readonly string[];
+}
+
+export interface RemoteDiagnosticsRequest {
+  dataset: RemoteDatasetName;
+}
+
+export interface RemoteCompletenessCheck {
+  id: string;
+  passed: boolean;
+  message: string;
+}
+
+export interface RemoteCompletenessDiagnostics {
+  dataset: RemoteDatasetName;
+  status: RemoteDatasetStatus;
+  complete: boolean;
+  itemCount: number;
+  fetchedAt?: string;
+  sourceUrl?: string;
+  checks: RemoteCompletenessCheck[];
+  notes?: readonly string[];
 }
 
 export interface Recording {
