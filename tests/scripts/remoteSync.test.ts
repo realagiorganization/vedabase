@@ -38,7 +38,7 @@ async function runNodeScript(
   env: Record<string, string>,
 ) {
   return execFileAsync(resolveNodeBinary(), [scriptPath, ...args], {
-    cwd: '/home/standart/vedabase',
+    cwd: path.resolve('.'),
     env: {
       ...process.env,
       ...env,
