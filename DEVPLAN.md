@@ -104,5 +104,6 @@
 - [x] Expand the DS subproject from generator-only checks into ROM behavior coverage for paging and language switching.
 - [x] Add an emulator-friendly ROM smoke-test path to the DS subproject CI with melonDS capture and README-linked media publication.
 - [x] Add BDD coverage for the DS ROM compilation path and launch/capture flow, with deterministic smoke-test verification of media artifacts.
+- [x] Add emulator-driven UI navigation tests and publish the interaction media alongside the existing README smoke assets.
 - [ ] Verify the new melonDS lane under `act` once Docker image pulls complete reliably in the local environment.
 - [ ] Finish a full local `make docker-build-rom` artifact build once the BlocksDS image pull completes successfully in this environment.

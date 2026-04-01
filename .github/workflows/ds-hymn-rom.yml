@@ -79,7 +79,8 @@ jobs:
             libfaad-dev \
             xvfb \
             ffmpeg \
-            imagemagick
+            imagemagick \
+            xdotool
           if apt-cache show qt6-multimedia-dev >/dev/null 2>&1; then
             sudo apt-get install -y qt6-base-dev qt6-base-private-dev qt6-multimedia-dev qt6-svg-dev
           else
@@ -97,6 +98,13 @@ jobs:
           ROM_PATH="$PWD/vedabase_hymn_favorites.nds" \
           OUT_DIR="$PWD/artifacts/emulator-media" \
           bash scripts/emulator-smoke.sh
+      - name: Run emulator UI navigation test
+        run: |
+          chmod +x scripts/emulator-ui-test.sh
+          EMULATOR_BIN="$PWD/external/melonDS/build/melonDS" \
+          ROM_PATH="$PWD/vedabase_hymn_favorites.nds" \
+          OUT_DIR="$PWD/artifacts/emulator-media" \
+          bash scripts/emulator-ui-test.sh
       - name: Upload emulator media artifact
         uses: actions/upload-artifact@v4
         with:

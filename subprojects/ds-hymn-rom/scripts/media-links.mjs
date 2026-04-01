@@ -14,6 +14,11 @@ export function createMediaLinks({
     steadyFrame: `${rawBase}/steady-frame.png`,
     smokeGif: `${rawBase}/smoke.gif`,
     smokeVideo: `${rawBase}/smoke.mp4`,
+    uiInitial: `${rawBase}/ui-initial.png`,
+    uiAfterRight: `${rawBase}/ui-after-right.png`,
+    uiAfterDown: `${rawBase}/ui-after-down.png`,
+    uiNavigationGif: `${rawBase}/ui-navigation.gif`,
+    uiNavigationVideo: `${rawBase}/ui-navigation.mp4`,
   };
 }
 

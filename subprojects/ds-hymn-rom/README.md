@@ -45,3 +45,18 @@ fixed URLs without storing binaries in the main source branch.
 ![Latest emulator smoke GIF](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/smoke.gif)
 
 Latest smoke video: [smoke.mp4](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/smoke.mp4)
+
+## Published UI Navigation Test Media
+
+The UI interaction lane sends deterministic input to melonDS, captures the UI
+before and after navigation, and records a short clip for README review.
+
+![UI initial frame](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ui-initial.png)
+
+![UI after hymn navigation](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ui-after-right.png)
+
+![UI after language navigation](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ui-after-down.png)
+
+![UI navigation GIF](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ui-navigation.gif)
+
+Latest UI navigation video: [ui-navigation.mp4](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ui-navigation.mp4)
