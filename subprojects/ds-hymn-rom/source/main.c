@@ -1,4 +1,5 @@
 #include <nds.h>
+#include <nds/arm9/console.h>
 #include <stdio.h>
 
 #include "generated/hymn_catalog.h"
@@ -7,22 +8,22 @@ static int current_hymn = 0;
 static int current_language = 0;
 
 static void draw_screen(void) {
-    iprintf("\x1b[2J");
-    iprintf("\x1b[1;1HVedabase Favorites");
-    iprintf("\x1b[3;1HUse Left/Right for hymn");
-    iprintf("\x1b[4;1HUse Up/Down for language");
+    printf("\x1b[2J");
+    printf("\x1b[1;1HVedabase Favorites");
+    printf("\x1b[3;1HUse Left/Right for hymn");
+    printf("\x1b[4;1HUse Up/Down for language");
 
     const VedabaseHymnEntry *entry = &vedabase_hymns[current_hymn];
 
-    iprintf("\x1b[6;1H%02d/%02d %s", current_hymn + 1, VEDABASE_HYMN_COUNT, entry->title);
-    iprintf("\x1b[7;1HSource: %s", entry->source);
-    iprintf("\x1b[8;1HLang: %s", vedabase_languages[current_language]);
-    iprintf("\x1b[10;1HTranscription:");
-    iprintf("\x1b[11;1H%s", entry->transcription);
-    iprintf("\x1b[15;1HTranslation:");
-    iprintf("\x1b[16;1H%s", entry->translations[current_language]);
-    iprintf("\x1b[21;1HStatic catalog generated from JSON mocks");
-    iprintf("\x1b[22;1HBlocksDS ARM9 ROM build");
+    printf("\x1b[6;1H%02d/%02d %s", current_hymn + 1, VEDABASE_HYMN_COUNT, entry->title);
+    printf("\x1b[7;1HSource: %s", entry->source);
+    printf("\x1b[8;1HLang: %s", vedabase_languages[current_language]);
+    printf("\x1b[10;1HTranscription:");
+    printf("\x1b[11;1H%s", entry->transcription);
+    printf("\x1b[15;1HTranslation:");
+    printf("\x1b[16;1H%s", entry->translations[current_language]);
+    printf("\x1b[21;1HStatic catalog generated from JSON mocks");
+    printf("\x1b[22;1HBlocksDS ARM9 ROM build");
 }
 
 int main(void) {

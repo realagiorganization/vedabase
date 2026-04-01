@@ -19,7 +19,7 @@ async function runNodeScript(
   args: string[],
   env: Record<string, string>,
 ) {
-  return execFileAsync('node', [scriptPath, ...args], {
+  return execFileAsync(process.execPath, [scriptPath, ...args], {
     cwd: '/home/standart/vedabase',
     env: {
       ...process.env,

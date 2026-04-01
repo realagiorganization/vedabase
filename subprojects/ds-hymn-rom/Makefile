@@ -19,7 +19,7 @@ SOURCEDIRS := source
 INCLUDEDIRS := source
 LIBS := -lnds9
 LIBDIRS := $(BLOCKSDS)/libs/libnds
-ARM7ELF := $(BLOCKSDS)/sys/arm7/main_core/arm7.elf
+ARM7ELF := $(BLOCKSDS)/sys/default_arm7/arm7.elf
 
 BUILDDIR := build/$(NAME)
 ELF := build/$(NAME).elf
