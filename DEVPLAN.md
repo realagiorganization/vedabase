@@ -103,4 +103,6 @@
 - [x] Add executable BDD counterparts for the mocked Nintendo DS hymn catalog scenarios.
 - [x] Expand the DS subproject from generator-only checks into ROM behavior coverage for paging and language switching.
 - [x] Add an emulator-friendly ROM smoke-test path to the DS subproject CI with melonDS capture and README-linked media publication.
+- [x] Add BDD coverage for the DS ROM compilation path and launch/capture flow, with deterministic smoke-test verification of media artifacts.
 - [ ] Verify the new melonDS lane under `act` once Docker image pulls complete reliably in the local environment.
+- [ ] Finish a full local `make docker-build-rom` artifact build once the BlocksDS image pull completes successfully in this environment.

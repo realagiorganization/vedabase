@@ -11,3 +11,7 @@
 2026-03-27 prediction: `make predictive-build-test-all` will hang in the test phase because the Makefile still uses Vitest watch mode.
 2026-03-27 actual: `make predictive-build-test-all` reached `npm run test`, passed the tests, and then waited for file changes instead of completing.
 2026-03-27 prediction: after switching the predictive target to `npm run test:ci`, `make predictive-build-test-all` will complete and validate lint, tests, and build.
+2026-03-28 prediction: `make predictive-build-test-all` will pass for the parent Vedabase app and leave only Docker-backed gates as possible blockers for this turn.
+2026-03-28 actual: `make predictive-build-test-all` failed in the lint phase because the root ESLint sweep descended into `subprojects/ds-hymn-rom/coverage/`.
+2026-03-28 prediction: after ignoring nested subproject coverage artifacts, `make predictive-build-test-all` will complete successfully.
+2026-03-28 actual: after ignoring nested subproject coverage artifacts, `make predictive-build-test-all` completed successfully.

@@ -20,6 +20,8 @@ This file logs timing-table fallback entries requested by repository policy.
 - 2026-03-28: no completing timing
 - 2026-03-27: tool timing not reported
 - 2026-03-27: no completing timing
+- 2026-03-29: tool timing not reported
+- 2026-03-29: no completing timing
 - 2026-03-28: tool timing not reported
 - 2026-03-28: no completing timing
 - 2026-03-28: tool timing not reported
@@ -46,3 +48,7 @@ This file logs timing-table fallback entries requested by repository policy.
 - 2026-03-27: no completing timing
 - 2026-03-27: tool timing not reported
 - 2026-03-27: no completing timing
+| ⏱️ Timing | 📌 Value |
+|---|---|
+| 🛠️ Tool timing | tool timing not reported |
+| 🧾 Completion timing | no completing timing |

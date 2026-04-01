@@ -12,4 +12,7 @@
 - [x] Add executable BDD counterparts for the mocked generator scenarios.
 - [x] Increase ROM-facing tests around text paging, language switching, and menu-state generation.
 - [x] Add a ROM smoke-test path in CI using melonDS under Xvfb with screenshot, GIF, and MP4 capture publication.
+- [x] Add BDD coverage for the ROM compilation contract and emulator launch/capture contract.
+- [x] Make the smoke script testable with deterministic injected capture tools so launch orchestration can be verified without a host GUI dependency.
 - [ ] Connect the mocked presentation model more directly to the ARM9 rendering loop so generator and ROM navigation stay in lockstep.
+- [ ] Produce and inspect a real `.nds` artifact locally once the BlocksDS Docker image finishes pulling cleanly.
