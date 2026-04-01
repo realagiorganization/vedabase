@@ -12,16 +12,18 @@ import { describe, expect, it } from 'vitest';
 const execFileAsync = promisify(execFile);
 
 function resolveNodeBinary() {
-  const candidates = [process.execPath];
+  const candidates = [];
   const pathEntries = (process.env.PATH ?? '').split(delimiter).filter(Boolean);
   candidates.push(...pathEntries.map((entry) => path.join(entry, 'node')));
 
   const hostedToolcacheRoot = '/opt/hostedtoolcache/node';
   if (fs.existsSync(hostedToolcacheRoot)) {
-    for (const version of fs.readdirSync(hostedToolcacheRoot)) {
+    for (const version of fs.readdirSync(hostedToolcacheRoot).sort().reverse()) {
       candidates.push(path.join(hostedToolcacheRoot, version, 'x64', 'bin', 'node'));
     }
   }
+
+  candidates.push(process.execPath);
 
   return candidates.find((candidate) => candidate && fs.existsSync(candidate)) ?? 'node';
 }
