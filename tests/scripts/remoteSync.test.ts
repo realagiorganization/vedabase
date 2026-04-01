@@ -3,12 +3,28 @@ import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
 import { Buffer } from 'node:buffer';
+import { delimiter } from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 
 import { describe, expect, it } from 'vitest';
 
 const execFileAsync = promisify(execFile);
+
+function resolveNodeBinary() {
+  const candidates = [process.execPath];
+  const pathEntries = (process.env.PATH ?? '').split(delimiter).filter(Boolean);
+  candidates.push(...pathEntries.map((entry) => path.join(entry, 'node')));
+
+  const hostedToolcacheRoot = '/opt/hostedtoolcache/node';
+  if (fs.existsSync(hostedToolcacheRoot)) {
+    for (const version of fs.readdirSync(hostedToolcacheRoot)) {
+      candidates.push(path.join(hostedToolcacheRoot, version, 'x64', 'bin', 'node'));
+    }
+  }
+
+  return candidates.find((candidate) => candidate && fs.existsSync(candidate)) ?? 'node';
+}
 
 function createTempDataRoot() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'vedabase-data-'));
@@ -19,7 +35,7 @@ async function runNodeScript(
   args: string[],
   env: Record<string, string>,
 ) {
-  return execFileAsync(process.execPath, [scriptPath, ...args], {
+  return execFileAsync(resolveNodeBinary(), [scriptPath, ...args], {
     cwd: '/home/standart/vedabase',
     env: {
       ...process.env,
