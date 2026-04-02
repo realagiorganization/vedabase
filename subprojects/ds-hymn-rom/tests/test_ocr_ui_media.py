@@ -7,7 +7,8 @@ import unittest
 from pathlib import Path
 
 
-SCRIPT = Path("/home/standart/vedabase/subprojects/ds-hymn-rom/scripts/ocr-ui-media.py")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SCRIPT = PROJECT_ROOT / "scripts/ocr-ui-media.py"
 PNG_1X1 = (
     b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01"
     b"\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT\x08\x99c\xf8\xff"
@@ -100,7 +101,7 @@ class OcrUiMediaTests(unittest.TestCase):
                     str(fake_convert),
                 ],
                 check=True,
-                cwd="/home/standart/vedabase/subprojects/ds-hymn-rom",
+                cwd=PROJECT_ROOT,
             )
 
             payload = json.loads(report.read_text(encoding="utf-8"))
