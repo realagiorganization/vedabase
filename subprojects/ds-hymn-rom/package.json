@@ -14,7 +14,7 @@
     "test": "vitest run",
     "test:bdd": "vitest run tests/bdd-counterparts.test.mjs",
     "test:ci": "vitest run --coverage",
-    "verify": "npm run generate && npm run lint && npm run test:ci && npm run test:bdd && npm run generate:check && npm run readme:check"
+    "verify": "npm run generate && npm run lint && npm run test:ci && python3 -m unittest discover -s tests -p 'test_ocr_ui_media.py' && npm run test:bdd && npm run generate:check && npm run readme:check"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",

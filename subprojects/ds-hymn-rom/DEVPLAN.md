@@ -15,5 +15,6 @@
 - [x] Add BDD coverage for the ROM compilation contract and emulator launch/capture contract.
 - [x] Make the smoke script testable with deterministic injected capture tools so launch orchestration can be verified without a host GUI dependency.
 - [x] Add UI-navigation emulator tests that drive melonDS, assert frame changes, and publish the resulting media into the README flow.
+- [x] Add a repo-local OCR verifier skill and OCR report generation for the published UI media.
 - [ ] Connect the mocked presentation model more directly to the ARM9 rendering loop so generator and ROM navigation stay in lockstep.
 - [ ] Produce and inspect a real `.nds` artifact locally once the BlocksDS Docker image finishes pulling cleanly.

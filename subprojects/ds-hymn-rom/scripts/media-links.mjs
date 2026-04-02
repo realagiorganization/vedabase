@@ -19,6 +19,7 @@ export function createMediaLinks({
     uiAfterDown: `${rawBase}/ui-after-down.png`,
     uiNavigationGif: `${rawBase}/ui-navigation.gif`,
     uiNavigationVideo: `${rawBase}/ui-navigation.mp4`,
+    ocrReport: `${rawBase}/ocr-report.json`,
   };
 }
 

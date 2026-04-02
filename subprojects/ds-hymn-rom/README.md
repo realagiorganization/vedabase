@@ -49,7 +49,8 @@ Latest smoke video: [smoke.mp4](https://raw.githubusercontent.com/realagiorganiz
 ## Published UI Navigation Test Media
 
 The UI interaction lane sends deterministic input to melonDS, captures the UI
-before and after navigation, and records a short clip for README review.
+before and after navigation, records a short clip for README review, and runs an
+OCR verifier against the resulting frames and movie sample.
 
 ![UI initial frame](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ui-initial.png)
 
@@ -60,3 +61,5 @@ before and after navigation, and records a short clip for README review.
 ![UI navigation GIF](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ui-navigation.gif)
 
 Latest UI navigation video: [ui-navigation.mp4](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ui-navigation.mp4)
+
+Latest OCR report: [ocr-report.json](https://raw.githubusercontent.com/realagiorganization/vedabase/ds-hymn-rom-media/subprojects/ds-hymn-rom/media/latest/ocr-report.json)
