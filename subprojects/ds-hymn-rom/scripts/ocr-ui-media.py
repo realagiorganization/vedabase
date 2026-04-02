@@ -6,12 +6,11 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import subprocess
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
-
-from PIL import Image, ImageOps
 
 
 @dataclass
@@ -29,12 +28,28 @@ def normalize(text: str) -> str:
     return text
 
 
-def preprocess_image(input_path: Path, output_path: Path) -> None:
-    image = Image.open(input_path)
-    grayscale = ImageOps.grayscale(image)
-    scaled = grayscale.resize((grayscale.width * 3, grayscale.height * 3))
-    thresholded = scaled.point(lambda value: 255 if value > 160 else 0)
-    thresholded.save(output_path)
+def preprocess_image(input_path: Path, output_path: Path, convert_bin: str) -> None:
+    convert_path = shutil.which(convert_bin)
+    if convert_path is None:
+        shutil.copyfile(input_path, output_path)
+        return
+
+    subprocess.run(
+        [
+            convert_path,
+            str(input_path),
+            "-colorspace",
+            "Gray",
+            "-resize",
+            "300%",
+            "-threshold",
+            "60%",
+            str(output_path),
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
 
 
 def run_tesseract(tesseract_bin: str, image_path: Path) -> str:
@@ -73,7 +88,7 @@ def require_phrases(label: str, text: str, phrases: list[str]) -> None:
       raise SystemExit(f"{label} OCR missing phrases: {', '.join(missing)}\nOCR text: {text}")
 
 
-def build_checks(media_dir: Path, ffmpeg_bin: str, tesseract_bin: str) -> list[OcrCheck]:
+def build_checks(media_dir: Path, ffmpeg_bin: str, tesseract_bin: str, convert_bin: str) -> list[OcrCheck]:
     checks: list[OcrCheck] = []
     with tempfile.TemporaryDirectory() as temp_dir_raw:
         temp_dir = Path(temp_dir_raw)
@@ -100,7 +115,7 @@ def build_checks(media_dir: Path, ffmpeg_bin: str, tesseract_bin: str) -> list[O
             if not source.exists():
                 raise SystemExit(f"missing OCR source image: {source}")
             prepared = temp_dir / f"{label}-prepared.png"
-            preprocess_image(source, prepared)
+            preprocess_image(source, prepared, convert_bin)
             text = run_tesseract(tesseract_bin, prepared)
             checks.append(
                 OcrCheck(
@@ -119,12 +134,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-json", type=Path)
     parser.add_argument("--ffmpeg-bin", default="ffmpeg")
     parser.add_argument("--tesseract-bin", default="tesseract")
+    parser.add_argument("--convert-bin", default="convert")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    checks = build_checks(args.media_dir, args.ffmpeg_bin, args.tesseract_bin)
+    checks = build_checks(args.media_dir, args.ffmpeg_bin, args.tesseract_bin, args.convert_bin)
     for check in checks:
         require_phrases(check.label, check.text, check.required_phrases)
 

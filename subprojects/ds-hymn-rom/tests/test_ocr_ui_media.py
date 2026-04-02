@@ -6,10 +6,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from PIL import Image
-
 
 SCRIPT = Path("/home/standart/vedabase/subprojects/ds-hymn-rom/scripts/ocr-ui-media.py")
+PNG_1X1 = (
+    b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01"
+    b"\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT\x08\x99c\xf8\xff"
+    b"\xff?\x00\x05\xfe\x02\xfeA\xd9\xa3\x1b\x00\x00\x00\x00IEND\xaeB`\x82"
+)
 
 
 class OcrUiMediaTests(unittest.TestCase):
@@ -50,19 +53,35 @@ class OcrUiMediaTests(unittest.TestCase):
         )
         path.chmod(0o755)
 
+    def _write_fake_convert(self, path: Path) -> None:
+        path.write_text(
+            "\n".join(
+                [
+                    "#!/usr/bin/env python3",
+                    "import shutil, sys",
+                    "shutil.copyfile(sys.argv[1], sys.argv[-1])",
+                ]
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        path.chmod(0o755)
+
     def test_ocr_media_script_writes_report(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
             media = root / "media"
             media.mkdir()
             for name in ("ui-initial.png", "ui-after-right.png", "ui-after-down.png"):
-                Image.new("RGB", (32, 32), "white").save(media / name)
+                (media / name).write_bytes(PNG_1X1)
             (media / "ui-navigation.mp4").write_bytes(b"fake-video")
 
             fake_tesseract = root / "fake-tesseract"
             fake_ffmpeg = root / "fake-ffmpeg"
+            fake_convert = root / "fake-convert"
             self._write_fake_tesseract(fake_tesseract)
             self._write_fake_ffmpeg(fake_ffmpeg)
+            self._write_fake_convert(fake_convert)
 
             report = root / "ocr-report.json"
             subprocess.run(
@@ -77,6 +96,8 @@ class OcrUiMediaTests(unittest.TestCase):
                     str(fake_ffmpeg),
                     "--tesseract-bin",
                     str(fake_tesseract),
+                    "--convert-bin",
+                    str(fake_convert),
                 ],
                 check=True,
                 cwd="/home/standart/vedabase/subprojects/ds-hymn-rom",
